@@ -20,7 +20,7 @@ class Main{
     Msg.init(args);
     if(args.length < 2) {
       Msg.info("Usage   : Bittorrent platform_file deployment_file");
-      Msg.info("example : Bittorrent ../platforms/cluster.xml bittorrent.xml");
+      Msg.info("example : Bittorrent ../platforms/cluster.xml app/bittorrent/bittorrent.xml");
       System.exit(1);
     }
 

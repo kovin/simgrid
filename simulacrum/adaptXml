@@ -1,0 +1,74 @@
+#!/usr/bin/python
+
+import lxml.etree as et
+import argparse
+from tempfile import NamedTemporaryFile
+import os
+import re
+
+parser = argparse.ArgumentParser(description='Adpat a SimuLaCrUM generated xml to be SimGrid 4.1 platform compliant.')
+parser.add_argument('--file', type=str, help='the xml to adapt', required=True)
+args = parser.parse_args()
+
+def getXmlPreAdaptedContents(filename):
+    try:
+        file = open(filename, 'r')
+    except IOError:
+        exit("file doesn't exist '%s'" % filename)
+    preAdaptedXmlContents = file.read().replace(
+        '<!DOCTYPE platform SYSTEM "simgrid.dtd">',
+        '<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">'
+    )
+    preAdaptedXmlContents = preAdaptedXmlContents.replace('link:ctn', 'link_ctn')
+    file.close()
+    return preAdaptedXmlContents
+
+
+def getFilenameWithPreAdaptedContents(file):
+    f = NamedTemporaryFile(delete=False)
+    f.write(getXmlPreAdaptedContents(file))
+    f.close()
+    return f.name
+
+def adaptPlatform(tree):
+    root = tree.getroot()
+    root.set('version', '4.1')
+
+def adaptHostName(name):
+    return re.sub(r'^[^\d]+(\d+)[^\d]*$',r'node-\1.acme.org', name)
+
+def adaptHosts(tree):
+    for host in tree.findall('host'):
+        host.set('id', adaptHostName(host.get('id')))
+        host.set('speed', '1Gf')
+        host.attrib.pop("power", None)
+
+def adaptLinks(tree):
+    for link in tree.findall('link'):
+        link.set('bandwidth', '100MBps')
+        link.set('latency', '10ms')
+
+def adaptRoutes(tree):
+    for route in tree.findall('route'):
+        route.set('symmetrical', 'NO')
+        route.set('src', adaptHostName(route.get('src')))
+        route.set('dst', adaptHostName(route.get('dst')))
+
+def addChildrenToZoneElement(tree):
+    zone = et.Element('zone')
+    zone.set('id', 'AS0')
+    zone.set('routing', 'Full')
+    root = tree.getroot()
+    for child in root:
+        zone.append(child)
+    root.append(zone)
+
+tempFilename = getFilenameWithPreAdaptedContents(args.file)
+tree = et.parse(tempFilename)
+adaptPlatform(tree)
+adaptHosts(tree)
+adaptLinks(tree)
+adaptRoutes(tree)
+addChildrenToZoneElement(tree)
+tree.write(args.file, xml_declaration=True, encoding="utf-8")
+os.unlink(tempFilename)

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4.1">
+  <actor  host="node-10.acme.org" function="app.bittorrent.Tracker">
+    <argument value="00000010"/>
+  </actor>
+  <actor  host="node-11.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000011"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-12.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000012"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-13.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000013"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-14.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000014"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-15.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000015"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-16.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000016"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-17.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000017"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-18.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000018"/><argument value="5000" /><argument value="1" />
+  </actor>
+  <actor  host="node-19.acme.org" function="app.bittorrent.Peer">
+    <argument value="00000019"/><argument value="5000" /><argument value="1" />
+  </actor>
+
+</platform>

@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4.1">
+  <zone id="AS0" routing="Full"><host id="node-10.acme.org" speed="1Gf"/>
+  <host id="node-11.acme.org" speed="1Gf"/>
+  <host id="node-12.acme.org" speed="1Gf"/>
+  <host id="node-13.acme.org" speed="1Gf"/>
+  <host id="node-14.acme.org" speed="1Gf"/>
+  <host id="node-15.acme.org" speed="1Gf"/>
+  <host id="node-16.acme.org" speed="1Gf"/>
+  <host id="node-17.acme.org" speed="1Gf"/>
+  <host id="node-18.acme.org" speed="1Gf"/>
+  <host id="node-19.acme.org" speed="1Gf"/>
+
+  <link id="l12" bandwidth="100MBps" latency="10ms"/>
+  <link id="l13" bandwidth="100MBps" latency="10ms"/>
+  <link id="l14" bandwidth="100MBps" latency="10ms"/>
+  <link id="l15" bandwidth="100MBps" latency="10ms"/>
+  <link id="l16" bandwidth="100MBps" latency="10ms"/>
+  <link id="l17" bandwidth="100MBps" latency="10ms"/>
+  <link id="l18" bandwidth="100MBps" latency="10ms"/>
+  <link id="l19" bandwidth="100MBps" latency="10ms"/>
+  <link id="l20" bandwidth="100MBps" latency="10ms"/>
+  <link id="l21" bandwidth="100MBps" latency="10ms"/>
+  <link id="l22" bandwidth="100MBps" latency="10ms"/>
+  <link id="l23" bandwidth="100MBps" latency="10ms"/>
+  <link id="l24" bandwidth="100MBps" latency="10ms"/>
+  <link id="l25" bandwidth="100MBps" latency="10ms"/>
+  <link id="l26" bandwidth="100MBps" latency="10ms"/>
+
+  <route src="node-10.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l18"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l18"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l20"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l18"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-10.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+    <link_ctn id="l25"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l19"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-11.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+    <link_ctn id="l24"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l20"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l12"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-12.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l18"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l24"/>
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l18"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l19"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-13.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+    <link_ctn id="l24"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+    <link_ctn id="l24"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+    <link_ctn id="l24"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l13"/>
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l21"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+    <link_ctn id="l26"/>
+  </route>
+
+  <route src="node-14.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l18"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l24"/>
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l18"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l14"/>
+    <link_ctn id="l19"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-15.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l24"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l18"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l18"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l17"/>
+    <link_ctn id="l20"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l18"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-16.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l25"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l20"/>
+    <link_ctn id="l17"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l19"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l20"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l19"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l21"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l19"/>
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l20"/>
+    <link_ctn id="l17"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l19"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-17.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l21"/>
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l18"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l12"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l26"/>
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l18"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l22"/>
+    <link_ctn id="l14"/>
+    <link_ctn id="l19"/>
+  </route>
+
+  <route src="node-18.acme.org" dst="node-19.acme.org" symmetrical="NO">
+    <link_ctn id="l26"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-10.acme.org" symmetrical="NO">
+    <link_ctn id="l25"/>
+    <link_ctn id="l16"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-11.acme.org" symmetrical="NO">
+    <link_ctn id="l24"/>
+    <link_ctn id="l14"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-12.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+    <link_ctn id="l13"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-13.acme.org" symmetrical="NO">
+    <link_ctn id="l24"/>
+    <link_ctn id="l15"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-14.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-15.acme.org" symmetrical="NO">
+    <link_ctn id="l24"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-16.acme.org" symmetrical="NO">
+    <link_ctn id="l25"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-17.acme.org" symmetrical="NO">
+    <link_ctn id="l23"/>
+    <link_ctn id="l21"/>
+  </route>
+
+  <route src="node-19.acme.org" dst="node-18.acme.org" symmetrical="NO">
+    <link_ctn id="l26"/>
+  </route>
+
+</zone></platform>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4.1">
+  <actor host="node-10.acme.org" function="app.scalability.Peer">
+    <argument value="0"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-11.acme.org" function="app.scalability.Peer">
+    <argument value="1"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-12.acme.org" function="app.scalability.Peer">
+    <argument value="2"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-13.acme.org" function="app.scalability.Peer">
+    <argument value="3"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-14.acme.org" function="app.scalability.Peer">
+    <argument value="4"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-15.acme.org" function="app.scalability.Peer">
+    <argument value="5"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-16.acme.org" function="app.scalability.Peer">
+    <argument value="6"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-17.acme.org" function="app.scalability.Peer">
+    <argument value="7"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-18.acme.org" function="app.scalability.Peer">
+    <argument value="8"/>
+    <argument value="10"/>
+  </actor>
+  <actor host="node-19.acme.org" function="app.scalability.Peer">
+    <argument value="9"/>
+    <argument value="10"/>
+  </actor>
+</platform>

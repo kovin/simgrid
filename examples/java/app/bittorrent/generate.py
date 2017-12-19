@@ -28,9 +28,9 @@ max_id = 2 ** nb_bits - 1
 all_ids = [42]
 
 sys.stdout.write("<?xml version='1.0'?>\n"
-                 "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid.dtd\">\n"
-                 "<platform version=\"3\">\n"
-                 "  <process host=\"c-0.me\" function=\"bittorrent.Tracker\"><argument value=\"%d\"/></process>\n" % end_date)
+                 "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
+                 "<platform version=\"4.1\">\n"
+                 "  <actor host=\"node-0.acme.org\" function=\"app.bittorrent.Tracker\"><argument value=\"%d\"/></actor>\n" % end_date)
 
 for i in range(1, nb_nodes):
 
@@ -39,11 +39,11 @@ for i in range(1, nb_nodes):
         my_id = random.randint(0, max_id)
         ok = not my_id in all_ids
     start_date = i * 10
-    line = "  <process host=\"c-%d.me\" function=\"bittorrent.Peer\"><argument value=\"%d\" /><argument value=\"%d\" />" % (
+    line = "  <actor host=\"node-%d.acme.org\" function=\"app.bittorrent.Peer\"><argument value=\"%d\" /><argument value=\"%d\" />" % (
         i, my_id, end_date)
     if random.randint(0, 100) < seed_percentage:
         line += "<argument value=\"1\" />"
-    line += "</process>\n"
+    line += "</actor>\n"
     sys.stdout.write(line)
     all_ids.append(my_id)
 sys.stdout.write("</platform>")

@@ -3,10 +3,9 @@
 /* This program is free software; you can redistribute it and/or modify it
  * under the terms of the license (GNU LGPL) which comes with this package. */
 
-package app.bittorrent;
+package app.scalability;
 
 import org.simgrid.msg.Msg;
-import org.simgrid.msg.RngStream;
 
 class Main{
   private Main() {
@@ -14,13 +13,10 @@ class Main{
   }
 
   public static void main(String[] args) {
-    int[] seed = { 12345, 12345, 12345, 12345, 12345, 12345 };
-    RngStream.setPackageSeed(seed);
-
     Msg.init(args);
     if(args.length < 2) {
-      Msg.info("Usage   : Bittorrent platform_file deployment_file");
-      Msg.info("example : Bittorrent ../platforms/cluster.xml app/bittorrent/bittorrent.xml");
+      Msg.info("Usage   : platform_file deployment_file");
+      Msg.info("example : app/scalability/exponential_10_nodes_alpha_.5.xml app/scalability/exponential_10_nodes_alpha_.5_deployment.xml");
       System.exit(1);
     }
 

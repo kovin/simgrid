@@ -1,9 +1,10 @@
 # C examples
-foreach(x app-masterworker 
+foreach(x app-masterworker
+          app-scalability
           cloud-capping cloud-masterworker cloud-migration
-          dht-pastry energy-vm platform-failures 
-          process-create 
-          synchro-semaphore trace-categories 
+          dht-pastry energy-vm platform-failures
+          process-create
+          synchro-semaphore trace-categories
           trace-route-user-variables trace-link-user-variables trace-masterworker
           trace-process-migration trace-host-user-variables)
   add_executable       (${x}     ${x}/${x}.c)
@@ -35,7 +36,7 @@ foreach (file answer dht-kademlia node routing_table task)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.c  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.h)
 endforeach()
 
-foreach (file app-masterworker dht-kademlia dht-pastry)
+foreach (file app-masterworker app-scalability dht-kademlia dht-pastry)
   set(xml_files    ${xml_files}     ${CMAKE_CURRENT_SOURCE_DIR}/${file}/${file}_d.xml)
 endforeach()
 
@@ -59,11 +60,12 @@ set(xml_files    ${xml_files}     ${CMAKE_CURRENT_SOURCE_DIR}/app-masterworker/a
                                   ${CMAKE_CURRENT_SOURCE_DIR}/network-ns3/one_cluster_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/network-ns3/two_clusters_d.xml       PARENT_SCOPE)
 
-foreach(x app-masterworker 
+foreach(x app-masterworker
+          app-scalability
           cloud-capping cloud-masterworker cloud-migration
           dht-pastry dht-kademlia platform-failures
           energy-vm
-          process-create 
+          process-create
           synchro-semaphore)
   ADD_TESH_FACTORIES(msg-${x} "thread;ucontext;raw;boost" 
                               --setenv bindir=${CMAKE_BINARY_DIR}/examples/msg/${x}

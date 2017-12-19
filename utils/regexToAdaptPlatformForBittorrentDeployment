@@ -1,0 +1,33 @@
+# Remove zone
+Find:
+<zone[^>]+>((.|\n)*)</zone>
+
+Replace:
+$1
+
+# Remove routes
+Find:
+<(route)(.|\n)+\1>\n
+
+Replace:
+
+# Remove links
+Find:
+<link[^>]+>\n
+
+Replace:
+
+
+# Adapt host to actors (caso Tracker)
+Find:
+host id="Host (\d+)" power="1.0E9"/>(\n)
+
+Replace:
+actor host="node-$1.acme.org" function="app.bittorrent.Tracker">$2    <argument value="000000$1"/></actor>$2
+
+# Adapt host to actors (caso Peer)
+Find:
+host id="Host (\d+)" power="1.0E9"/>(\n)
+
+Replace:
+actor host="node-$1.acme.org" function="app.bittorrent.Peer">$2    <argument value="000000$1"/><argument value="5000" /><argument value="1" />$2  </actor>$2

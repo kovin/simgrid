@@ -1,0 +1,35 @@
+[[Idea]]
+Escalabilidad: Programar un "ping" todos contra todos (cada nodo le manda un mensaje a todos los nodos). Sobre una red con 100, 1000, 10000 nodos generada aleatoriamente. (se escuchan ideas).
+
+[[Propuesta]]
+Tener el actor Peer
+El actor Peer:
+    va a tener un mailbox asociado
+    va a saber su nro
+    va a saber la cantidad de peers en la red
+    le va a enviar un "ping" a todos los que no sean el
+
+
+[[Build C]]
+simgrid$ make app-scalability
+
+[[Ejecucion C]]
+simgrid/results/scalability$ ../../examples/msg/app-scalability/app-scalability exponential_25_nodes_.5_alpha.xml 25_nodes_deployment_for_c.xml
+
+[Sin log]
+simgrid/results/scalability$ ../../examples/msg/app-scalability/app-scalability exponential_25_nodes_.5_alpha.xml 25_nodes_deployment_for_c.xml --log=root.thres:critical
+
+[Con memory profile]
+simgrid/results/scalability$ valgrind --tool=massif ../../examples/msg/app-scalability/app-scalability exponential_25_nodes_.5_alpha.xml 25_nodes_deployment_for_c.xml --log=root.thres:critical
+
+ms_print $(ls -t | head -n1)
+
+[[Build Java]]
+simgrid/results/scalability$ javac -cp ../../simgrid.jar:../../examples/java ../../examples/java/app/scalability/*java
+
+[[Ejecucion Java]]
+simgrid/results/scalability$ java -cp ../../simgrid.jar:../../examples/java app.scalability.Main exponential_25_nodes_.5_alpha.xml 25_nodes_deployment_for_java.xml
+
+
+[[Comando top con filtrado por nombre de proceso]]
+top -c -p $(pgrep -d',' -f scalability)

@@ -1,0 +1,118 @@
+------------------------------------------------------------------
+
+Results for 25 nodes in the app-scalability experiment for Java
+Used rss:        26464 kB
+Real time:       2
+Simulation time: 325.372368
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 50 nodes in the app-scalability experiment for Java
+Used rss:        35568 kB
+Real time:       1
+Simulation time: 650.614636
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 75 nodes in the app-scalability experiment for Java
+Used rss:        40860 kB
+Real time:       4
+Simulation time: 767.862059
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 100 nodes in the app-scalability experiment for Java
+Used rss:        70428 kB
+Real time:       15
+Simulation time: 889.758966
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 125 nodes in the app-scalability experiment for Java
+Used rss:        89712 kB
+Real time:       38
+Simulation time: 1118.753811
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 150 nodes in the app-scalability experiment for Java
+Used rss:        108908 kB
+Real time:       71
+Simulation time: 1358.398141
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 175 nodes in the app-scalability experiment for Java
+Used rss:        146824 kB
+Real time:       124
+Simulation time: 1710.289894
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 200 nodes in the app-scalability experiment for Java
+Used rss:        150672 kB
+Real time:       180
+Simulation time: 1668.490925
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 225 nodes in the app-scalability experiment for Java
+Used rss:        177216 kB
+Real time:       295
+Simulation time: 2149.779585
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 250 nodes in the app-scalability experiment for Java
+Used rss:        205248 kB
+Real time:       415
+Simulation time: 2675.867213
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 275 nodes in the app-scalability experiment for Java
+Used rss:        267808 kB
+Real time:       561
+Simulation time: 2498.171337
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 300 nodes in the app-scalability experiment for Java
+Used rss:        286432 kB
+Real time:       1116
+Simulation time: 2679.367213
+
+------------------------------------------------------------------

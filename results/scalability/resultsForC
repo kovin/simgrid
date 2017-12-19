@@ -1,0 +1,118 @@
+---------------------------------------------------------------
+
+Results for 25 nodes in the app-scalability experiment for C
+Used rss:        4 kB
+Real time:       0
+Simulation time: 325.372368
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 50 nodes in the app-scalability experiment for C
+Used rss:        1336 kB
+Real time:       0
+Simulation time: 650.614636
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 75 nodes in the app-scalability experiment for C
+Used rss:        15224 kB
+Real time:       4
+Simulation time: 767.862059
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 100 nodes in the app-scalability experiment for C
+Used rss:        22136 kB
+Real time:       12
+Simulation time: 889.758966
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 125 nodes in the app-scalability experiment for C
+Used rss:        30848 kB
+Real time:       32
+Simulation time: 1118.753811
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 150 nodes in the app-scalability experiment for C
+Used rss:        42044 kB
+Real time:       61
+Simulation time: 1358.398141
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 175 nodes in the app-scalability experiment for C
+Used rss:        54460 kB
+Real time:       112
+Simulation time: 1710.289894
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 200 nodes in the app-scalability experiment for C
+Used rss:        68540 kB
+Real time:       165
+Simulation time: 1668.490925
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 225 nodes in the app-scalability experiment for C
+Used rss:        84696 kB
+Real time:       271
+Simulation time: 2149.779585
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 250 nodes in the app-scalability experiment for C
+Used rss:        102928 kB
+Real time:       382
+Simulation time: 2675.867213
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 275 nodes in the app-scalability experiment for C
+Used rss:        124192 kB
+Real time:       541
+Simulation time: 2498.171337
+
+---------------------------------------------------------------
+
+
+---------------------------------------------------------------
+
+Results for 300 nodes in the app-scalability experiment for C
+Used rss:        143808 kB
+Real time:       854
+Simulation time: 2679.367213
+
+---------------------------------------------------------------

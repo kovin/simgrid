@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4.1">
+    <actor host="node-0" function="peer">
+        <argument value="0"/><argument value="5"/>
+    </actor>
+    <actor host="node-1" function="peer">
+        <argument value="1"/><argument value="5"/>
+    </actor>
+    <actor host="node-2" function="peer">
+        <argument value="2"/><argument value="5"/>
+    </actor>
+    <actor host="node-3" function="peer">
+        <argument value="3"/><argument value="5"/>
+    </actor>
+    <actor host="node-4" function="peer">
+        <argument value="4"/><argument value="5"/>
+    </actor>
+</platform>

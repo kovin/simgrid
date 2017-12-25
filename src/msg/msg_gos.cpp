@@ -619,6 +619,7 @@ void MSG_comm_waitall(msg_comm_t * comm, int nb_elem, double timeout)
  */
 int MSG_comm_waitany(xbt_dynar_t comms)
 {
+  XBT_INFO("entrando a waitany");
   int finished_index = -1;
 
   /* create the equivalent dynar with SIMIX objects */
@@ -660,9 +661,12 @@ int MSG_comm_waitany(xbt_dynar_t comms)
 
   if (comm->task_received != nullptr) {
     /* I am the receiver */
-    (*comm->task_received)->simdata->setNotUsed();
+    if ((*comm->task_received)->simdata != nullptr) {
+      (*comm->task_received)->simdata->isused = false;
+    }
+    //(*comm->task_received)->simdata->setNotUsed();
   }
-
+  XBT_INFO("saliendo de waitany con '%d'", finished_index);
   return finished_index;
 }
 

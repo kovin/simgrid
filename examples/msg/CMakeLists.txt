@@ -1,6 +1,7 @@
 # C examples
 foreach(x app-masterworker
           app-scalability
+          app-p2p-data-transfer
           cloud-capping cloud-masterworker cloud-migration
           dht-pastry energy-vm platform-failures
           process-create
@@ -36,7 +37,7 @@ foreach (file answer dht-kademlia node routing_table task)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.c  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.h)
 endforeach()
 
-foreach (file app-masterworker app-scalability dht-kademlia dht-pastry)
+foreach (file app-masterworker app-scalability app-p2p-data-transfer dht-kademlia dht-pastry)
   set(xml_files    ${xml_files}     ${CMAKE_CURRENT_SOURCE_DIR}/${file}/${file}_d.xml)
 endforeach()
 
@@ -62,6 +63,7 @@ set(xml_files    ${xml_files}     ${CMAKE_CURRENT_SOURCE_DIR}/app-masterworker/a
 
 foreach(x app-masterworker
           app-scalability
+          app-p2p-data-transfer
           cloud-capping cloud-masterworker cloud-migration
           dht-pastry dht-kademlia platform-failures
           energy-vm

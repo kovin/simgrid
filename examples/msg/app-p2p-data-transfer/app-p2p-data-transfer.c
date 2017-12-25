@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2011. The SimGrid Team. All rights reserved.          */
+/* Copyright (c) 2010-2016. The SimGrid Team. All rights reserved.          */
 
 /* This program is free software; you can redistribute it and/or modify it
  * under the terms of the license (GNU LGPL) which comes with this package. */
@@ -7,41 +7,33 @@
 # define MAX_STRING_SIZE 80
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(msg_app_masterworker, "Messages specific for this msg example");
-int totalSent = 0;
-int totalReceived = 0;
 
 void sendMessages(int id, int peers_count, int peers_to_contact, char* task_name, char *my_mailbox)
 {
   double comp_size = 500000000;
   double comm_size = 1000000000;
   char mailbox[MAX_STRING_SIZE];
-  for (int i = 1; i <= 1; ++i) {
-    int peer_id = (id + i) % 6;
+  for (int i = 1; i <= peers_to_contact; ++i) {
+    int peer_id = (id + i) % peers_count;
     XBT_INFO("worker-%d: I will send a message to '%d'", id, peer_id);
     msg_task_t task = MSG_task_create(task_name, comp_size, comm_size, NULL);
     snprintf(mailbox, MAX_STRING_SIZE - 1, "worker-%d", peer_id); /* - Select a @ref worker in a round-robin way */
     MSG_task_isend(task, mailbox);
-    totalSent++;
-    XBT_INFO("worker-%d: total sent messages '%d'", id, totalSent);
   }
 }
 
 void receiveMessages(int id, int peers_count, int peers_to_contact, char* my_mailbox)
 {
-  msg_task_t *tasks = xbt_new(msg_task_t, 100);
+  msg_task_t *tasks = xbt_new(msg_task_t, peers_to_contact);
   xbt_dynar_t comms = xbt_dynar_new(sizeof(msg_comm_t), NULL);
-  /*for (int i = 2; i >= 1; --i) {
+  for (int i = peers_to_contact; i >= 1; --i) {
     int peer_id = (id - i + peers_count) % peers_count;
     XBT_INFO("worker-%d: I'll wait for a message from '%d'", id, peer_id);
-    int task_id = i % 1;
+    int task_id = i % peers_to_contact;
     tasks[task_id] = NULL;
     msg_comm_t comm = MSG_task_irecv(&tasks[task_id], my_mailbox);
     xbt_dynar_push_as(comms, msg_comm_t, comm);
-  }*/
-  XBT_INFO("worker-%d: I'll wait for a message from '%d'", id, 1);
-  tasks[0] = NULL;
-  msg_comm_t comm = MSG_task_irecv(&tasks[0], my_mailbox);
-  xbt_dynar_push_as(comms, msg_comm_t, comm);
+  }
   while (!xbt_dynar_is_empty(comms)) {
     msg_comm_t comm;
     // MSG_comm_waitany returns the rank of the comm that just ended. Remove it.
@@ -53,8 +45,6 @@ void receiveMessages(int id, int peers_count, int peers_to_contact, char* my_mai
     XBT_INFO("worker-%d: task \"%s\" is done", id, MSG_task_get_name(task));
     msg_error_t err = MSG_task_destroy(task);
     xbt_assert(err == MSG_OK, "MSG_task_destroy failed");
-    totalReceived++;
-    XBT_INFO("worker-%d: total received messages-> '%d'", id, totalReceived);
   }
   xbt_dynar_free(&comms);
   xbt_free(tasks);
@@ -65,7 +55,7 @@ static int peer(int argc, char *argv[])
 {
   int id = xbt_str_parse_int(argv[1], "Invalid argument %s");
   int peers_count = xbt_str_parse_int(argv[2], "Invalid argument %s");
-  int peers_to_contact = 1;
+  int peers_to_contact = MIN(1, peers_count - 1);
   char task_name[MAX_STRING_SIZE];
   char my_mailbox[MAX_STRING_SIZE];
 

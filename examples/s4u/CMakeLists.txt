@@ -1,6 +1,7 @@
 foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime actor-migration actor-suspend actor-yield
                  app-chainsend app-masterworker app-pingpong app-token-ring
                  async-wait async-waitany async-waitall
+                 scalability
                  cloud-simple
                  energy-exec energy-boot energy-link energy-vm
                  exec-async exec-basic exec-dvfs exec-monitor exec-ptask exec-remote
@@ -42,6 +43,7 @@ set(tesh_files    ${tesh_files}   ${CMAKE_CURRENT_SOURCE_DIR}/app-bittorrent/s4u
                                   ${CMAKE_CURRENT_SOURCE_DIR}/actor-yield/s4u-actor-yield.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-wait/s4u-async-wait.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-waitany/s4u-async-waitany.tesh
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/scalability/s4u-scalability.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-waitall/s4u-async-waitall.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/exec-basic/s4u-exec-basic.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/exec-dvfs/s4u-exec-dvfs.tesh
@@ -52,6 +54,7 @@ set(xml_files     ${xml_files}    ${CMAKE_CURRENT_SOURCE_DIR}/actor-create/s4u-a
                                   ${CMAKE_CURRENT_SOURCE_DIR}/app-bittorrent/s4u-app-bittorrent_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/app-masterworker/s4u-app-masterworker_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-waitany/s4u-async-waitany_d.xml
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/scalability/s4u-scalability_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-waitall/s4u-async-waitall_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-wait/s4u-async-wait_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/dht-chord/s4u-dht-chord_d.xml
@@ -71,6 +74,7 @@ set(txt_files     ${txt_files}    ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-re
 foreach(example actor-create actor-daemon actor-join actor-kill actor-lifetime actor-migration actor-suspend actor-yield
                 app-bittorrent app-chainsend app-masterworker app-pingpong app-token-ring 
                 async-wait async-waitall async-waitany
+                scalability
                 cloud-simple
                 dht-chord 
                 energy-exec energy-boot energy-link energy-vm

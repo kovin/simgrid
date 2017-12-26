@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
+<platform version="4.1">
+  <!-- The receiver processes -->
+  <actor host="Fafard" function="peer">
+    <argument value="0"/>       <!-- My name -->
+    <argument value="2"/>       <!-- My name -->
+  </actor>
+  <actor host="Jupiter" function="peer">
+    <argument value="1"/>       <!-- My name -->
+    <argument value="2"/>       <!-- My name -->
+  </actor>
+</platform>

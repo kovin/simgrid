@@ -20,7 +20,7 @@ class Node : public BaseNode {
   int peers_count;
   int connected_peers;
   double msg_size = 1000000;
-  double messages_to_send = 4;
+  double messages_to_send = 30;
   simgrid::s4u::CommPtr comm_received = nullptr;
   int total_bytes_received = 0;
   simgrid::s4u::MailboxPtr my_mailbox;
@@ -33,12 +33,15 @@ public:
 
 protected:
   int my_id;
+  std::vector<Transaction> unconfirmed_transactions;
   Message* get_message_to_send();
 
 private:
   void create_and_send_message_if_needed();
 
-  void create_and_send_message();
+  void send_message_to_peers(Message* payload);
+
+  void notify_unconfirmed_transactions_if_needed();
 
   void receive();
 

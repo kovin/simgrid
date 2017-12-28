@@ -23,16 +23,13 @@ Node::Node(std::vector<std::string> args)
 
 void Node::operator()()
 {
-  XBT_INFO("creating messages");
   while (messages_to_send > 0) {
     create_and_send_message_if_needed();
   }
-  XBT_INFO("waiting messages");
   while (simgrid::s4u::Engine::getClock() < 50) {
     receive();
     simgrid::s4u::this_actor::sleep_for(1);
   }
-  XBT_INFO("Done");
   XBT_INFO(
     "\nStats\n"
     "\ttotal bytes received:\t%d\n"
@@ -43,29 +40,48 @@ void Node::operator()()
 
 void Node::create_and_send_message_if_needed()
 {
-    if (messages_to_send > 0) {
-      create_and_send_message();
-    }
-}
-
-void Node::create_and_send_message()
-{
-  if ((rand() % 100) < 75) {
-    int random_peer_index_to_contact = (rand() % peers_to_contact) + 1;
-    int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
-    simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
-    Message* payload = get_message_to_send();
-    mbox->put_async(payload, msg_size + payload->size);
+  if ((messages_to_send > 0) && ((rand() % 100) < 75)) {
+    send_message_to_peers(get_message_to_send());
     messages_to_send--;
   }
 }
 
+void Node::notify_unconfirmed_transactions_if_needed()
+{
+  if ((rand() % 100) < 25) {
+    std::vector<Transaction> *transactions = new std::vector<Transaction>;
+    Message *payload = new UnconfirmedTransactions(my_id, transactions);
+    //Message *payload = new Otro(my_id, 1234);
+    send_message_to_peers(payload);
+    XBT_INFO("Tengo que notificar de transacciones no confirmadas");
+  }
+}
+
+void Node::send_message_to_peers(Message* payload) {
+    switch (payload->type) {
+      case MESSAGE_TRANSACTION:
+        XBT_INFO("Envio message transaction");
+        break;
+      case MESSAGE_BLOCK:
+        XBT_INFO("Envio message block");
+        break;
+      case UNCONFIRMED_TRANSACTIONS:
+        XBT_INFO("Envio unconfirmed transactions");
+        break;
+      //default:
+        // FIXME: re-enable
+        //THROW_IMPOSSIBLE;
+    }
+    int random_peer_index_to_contact = (rand() % peers_to_contact) + 1;
+    int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
+    simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
+    mbox->put_async(payload, msg_size + payload->size);
+}
+
 Message* Node::get_message_to_send()
 {
-  XBT_INFO("Creating Transaction");
   int numberOfBytes = rand() & 100000;
   Message* message = new Transaction(my_id, numberOfBytes);
-  XBT_INFO("Created transaction with size %d", message->size);
   return message;
 }
 
@@ -74,16 +90,31 @@ void Node::receive()
   if (!my_mailbox->empty()) {
     void* data = my_mailbox->get();
     Message *payload = static_cast<Message*>(data);
+    Block *block;
     comm_received = nullptr;
+    Transaction transaction = Transaction(payload->peer_id, payload->size);
     switch (payload->type) {
-      case MESSAGE_BLOCK:
       case MESSAGE_TRANSACTION:
-          total_bytes_received += payload->size;
-          network_bytes_produced += payload->size;
+        //XBT_INFO("Recibi transaccion");
+        transaction.id = payload->id;
+        unconfirmed_transactions.push_back(transaction);
+        total_bytes_received += payload->size;
+        network_bytes_produced += payload->size;
         break;
-      default:
-        THROW_IMPOSSIBLE;
+      case MESSAGE_BLOCK:
+        //XBT_INFO("Recibi bloque");
+        block = static_cast<Block*>(data);
+        total_bytes_received += payload->size;
+        network_bytes_produced += payload->size;
+        break;
+      case UNCONFIRMED_TRANSACTIONS:
+        XBT_INFO("Recibi unconfirmed transactions");
+        break;
+      //default:
+        // FIXME: re-enable
+        //THROW_IMPOSSIBLE;
     }
+    notify_unconfirmed_transactions_if_needed();
   }
 }
 

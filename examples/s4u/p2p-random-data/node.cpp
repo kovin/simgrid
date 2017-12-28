@@ -23,11 +23,11 @@ Node::Node(std::vector<std::string> args)
 
 void Node::operator()()
 {
-  XBT_INFO("creating blocks");
-  while (blocks_to_send > 0) {
-    create_and_send_block_if_needed();
+  XBT_INFO("creating messages");
+  while (messages_to_send > 0) {
+    create_and_send_message_if_needed();
   }
-  XBT_INFO("waiting blocks");
+  XBT_INFO("waiting messages");
   while (simgrid::s4u::Engine::getClock() < 50) {
     receive();
     simgrid::s4u::this_actor::sleep_for(1);
@@ -41,34 +41,32 @@ void Node::operator()()
   );
 }
 
-void Node::create_and_send_block_if_needed()
+void Node::create_and_send_message_if_needed()
 {
-    if (blocks_to_send > 0) {
-      create_and_send_block();
+    if (messages_to_send > 0) {
+      create_and_send_message();
     }
 }
 
-void Node::create_and_send_block()
+void Node::create_and_send_message()
 {
   if ((rand() % 100) < 75) {
     int random_peer_index_to_contact = (rand() % peers_to_contact) + 1;
     int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
     simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
-    int numberOfBytes;
-    Message* payload;
-    /*if ((rand() % 100) < 50) {
-      XBT_INFO("Creating block");
-      numberOfBytes = 10000000;
-      payload = new Message(MESSAGE_NEW_BLOCK, my_id, numberOfBytes);
-    } else {
-    */
-      XBT_INFO("Creating Transaction");
-      numberOfBytes = 1000000;
-      payload = new Transaction(my_id, numberOfBytes);
-    //}
-    mbox->put_async(payload, msg_size + numberOfBytes);
-    blocks_to_send--;
+    Message* payload = get_message_to_send();
+    mbox->put_async(payload, msg_size + payload->size);
+    messages_to_send--;
   }
+}
+
+Message* Node::get_message_to_send()
+{
+  XBT_INFO("Creating Transaction");
+  int numberOfBytes = rand() & 100000;
+  Message* message = new Transaction(my_id, numberOfBytes);
+  XBT_INFO("Created transaction with size %d", message->size);
+  return message;
 }
 
 void Node::receive()

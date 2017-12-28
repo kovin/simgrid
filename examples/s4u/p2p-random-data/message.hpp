@@ -24,7 +24,11 @@ class Transaction : public Message {
 class Block : public Message {
     public:
         std::vector<Transaction> *transactions;
-        Block (int peer_id, std::vector<Transaction> *transactions) : Message(MESSAGE_TRANSACTION, peer_id), transactions(transactions) { };
+        Block (int peer_id, std::vector<Transaction> *transactions) : Message(MESSAGE_TRANSACTION, peer_id), transactions(transactions) {
+            for (auto const& transaction : *transactions) {
+              size += transaction.size;
+            }
+        };
 };
 
 #endif /* MESSAGE_HPP */

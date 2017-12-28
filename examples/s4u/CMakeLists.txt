@@ -19,10 +19,10 @@ foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime 
 endforeach()
 
 # P2P RANDOM DATA EXAMPLE
-add_executable       (s4u-p2p-random-data p2p-random-data/s4u-p2p-random-data.cpp p2p-random-data/node.cpp)
+add_executable       (s4u-p2p-random-data p2p-random-data/s4u-p2p-random-data.cpp p2p-random-data/node.cpp p2p-random-data/miner.cpp)
 target_link_libraries(s4u-p2p-random-data simgrid)
 set_target_properties(s4u-p2p-random-data PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/p2p-random-data)
-foreach (file p2p-random-data node)
+foreach (file p2p-random-data node miner)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/${file}.cpp)
 endforeach()
 set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/p2p-random-data.hpp)

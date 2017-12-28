@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 
   simgrid::s4u::Engine e(&argc, argv);
   e.registerFunction<Node>("node");
+  e.registerFunction<Miner>("miner");
 
   e.loadPlatform(argv[1]);
   e.loadDeployment(argv[2]);

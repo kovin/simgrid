@@ -1,46 +1,38 @@
-#include <simgrid/s4u.hpp>
+#ifndef P2P_RANDOM_DATA_HPP
+#define P2P_RANDOM_DATA_HPP
+#define SLEEP_DURATION 1
 
-enum e_message_type {
-  MESSAGE_NEW_BLOCK,
-  MESSAGE_TRANSACTION,
-  MESSAGE_BYE
-};
+#include "simgrid/s4u.hpp"
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <sstream>
 
-class Message {
+class Node {
+  int my_id;
+  int peers_to_contact;
+  int peers_count;
+  int connected_peers;
+  double msg_size = 1000000;
+  double blocks_to_send = 4;
+  simgrid::s4u::CommPtr comm_received = nullptr;
+  int total_bytes_received = 0;
+  simgrid::s4u::MailboxPtr my_mailbox;
+  bool disconnect_notified = false;
+  static int network_bytes_produced;
+
 public:
-  e_message_type type;
-  int peer_id;
-  int block_size = 0;
-  Message(e_message_type type, int peer_id) : type(type), peer_id(peer_id){};
-  Message(e_message_type type, int peer_id, int block_size) : type(type), peer_id(peer_id), block_size(block_size){};
-  ~Message() = default;
+  explicit Node(std::vector<std::string> args);
+  void operator()();
+
+private:
+  void create_and_send_block_if_needed();
+
+  void create_and_send_block();
+
+  void receive();
+
+  simgrid::s4u::MailboxPtr get_peer_mailbox(int peer_id);
 };
 
-
-class Transaction : public Message {
-    public:
-        int size = 0;
-        Transaction (int peer_id, int size) : Message(MESSAGE_TRANSACTION, peer_id), size(size) { };
-};
-/*}
-
-class Mother {
-  public:
-    Mother ()
-      { cout << "Mother: no parameters\n"; }
-    Mother (int a)
-      { cout << "Mother: int parameter\n"; }
-};
-
-class Daughter : public Mother {
-  public:
-    Daughter (int a)
-      { cout << "Daughter: int parameter\n\n"; }
-};
-
-class Son : public Mother {
-  public:
-    Son (int a) : Mother (a)
-      { cout << "Son: int parameter\n\n"; }
-};
-*/
+#endif /* P2P_RANDOM_DATA_HPP */

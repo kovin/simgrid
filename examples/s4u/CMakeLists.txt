@@ -2,7 +2,6 @@ foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime 
                  app-chainsend app-masterworker app-pingpong app-token-ring
                  async-wait async-waitany async-waitall
                  scalability
-                 p2p-random-data
                  cloud-simple
                  energy-exec energy-boot energy-link energy-vm
                  exec-async exec-basic exec-dvfs exec-monitor exec-ptask exec-remote
@@ -18,6 +17,15 @@ foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime 
   set(tesh_files    ${tesh_files}    ${CMAKE_CURRENT_SOURCE_DIR}/${example}/s4u-${example}.tesh)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/${example}/s4u-${example}.cpp)
 endforeach()
+
+# P2P RANDOM DATA EXAMPLE
+add_executable       (s4u-p2p-random-data p2p-random-data/s4u-p2p-random-data.cpp p2p-random-data/node.cpp)
+target_link_libraries(s4u-p2p-random-data simgrid)
+set_target_properties(s4u-p2p-random-data PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/p2p-random-data)
+foreach (file p2p-random-data node)
+  set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/${file}.cpp)
+endforeach()
+set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/p2p-random-data.hpp)
 
 # CHORD EXAMPLE
 add_executable       (s4u-dht-chord dht-chord/s4u-dht-chord.cpp dht-chord/node.cpp)

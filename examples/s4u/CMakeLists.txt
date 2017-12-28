@@ -2,6 +2,7 @@ foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime 
                  app-chainsend app-masterworker app-pingpong app-token-ring
                  async-wait async-waitany async-waitall
                  scalability
+                 p2p-random-data
                  cloud-simple
                  energy-exec energy-boot energy-link energy-vm
                  exec-async exec-basic exec-dvfs exec-monitor exec-ptask exec-remote

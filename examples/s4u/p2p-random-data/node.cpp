@@ -58,19 +58,16 @@ void Node::notify_unconfirmed_transactions_if_needed()
 }
 
 void Node::send_message_to_peers(Message* payload) {
-    switch (payload->type) {
+    switch (payload->get_type()) {
       case MESSAGE_TRANSACTION:
         XBT_INFO("Envio message transaction");
-        break;
-      case MESSAGE_BLOCK:
-        XBT_INFO("Envio message block");
         break;
       case UNCONFIRMED_TRANSACTIONS:
         XBT_INFO("Envio unconfirmed transactions");
         break;
-      //default:
-        // FIXME: re-enable
-        //THROW_IMPOSSIBLE;
+      case MESSAGE_BLOCK:
+        XBT_INFO("Envio message block");
+        break;
     }
     int random_peer_index_to_contact = (rand() % peers_to_contact) + 1;
     int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
@@ -93,16 +90,14 @@ void Node::receive()
     Block *block;
     comm_received = nullptr;
     Transaction transaction = Transaction(payload->peer_id, payload->size);
-    switch (payload->type) {
+    switch (payload->get_type()) {
       case MESSAGE_TRANSACTION:
-        //XBT_INFO("Recibi transaccion");
         transaction.id = payload->id;
         unconfirmed_transactions.push_back(transaction);
         total_bytes_received += payload->size;
         network_bytes_produced += payload->size;
         break;
       case MESSAGE_BLOCK:
-        //XBT_INFO("Recibi bloque");
         block = static_cast<Block*>(data);
         total_bytes_received += payload->size;
         network_bytes_produced += payload->size;
@@ -110,9 +105,8 @@ void Node::receive()
       case UNCONFIRMED_TRANSACTIONS:
         XBT_INFO("Recibi unconfirmed transactions");
         break;
-      //default:
-        // FIXME: re-enable
-        //THROW_IMPOSSIBLE;
+      default:
+        THROW_IMPOSSIBLE;
     }
     notify_unconfirmed_transactions_if_needed();
   }

@@ -9,7 +9,6 @@ Message* Miner::get_message_to_send()
       int numberOfBytes = rand() & 100000;
       Transaction transaction = Transaction(my_id, numberOfBytes);
       transactions->push_back(transaction);
-      XBT_INFO("# de transacciones en bloqueB %lu", transactions->size());
     }
   Message* message = new Block(my_id, transactions);
   return message;

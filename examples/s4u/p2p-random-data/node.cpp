@@ -1,5 +1,4 @@
 #include "s4u-p2p-random-data.hpp"
-#include "message.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -7,10 +6,12 @@
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(p2p_random_data);
 
+int Node::active_nodes = 0;
 int Node::network_bytes_produced = 0;
 
 Node::Node(std::vector<std::string> args)
 {
+  active_nodes++;
   xbt_assert(args.size() == 4, "Expecting 3 parameters from the XML deployment file but got %zu", args.size());
   my_id = std::stoi(args[1]);
   peers_count = std::stoi(args[3]);
@@ -30,12 +31,13 @@ void Node::operator()()
     receive();
     simgrid::s4u::this_actor::sleep_for(1);
   }
-  XBT_INFO(
+  /*XBT_INFO(
     "\nStats\n"
     "\ttotal bytes received:\t%d\n"
     "\ttotal network bytes produced:\t%d",
     total_bytes_received, network_bytes_produced
-  );
+  );*/
+  active_nodes--;
 }
 
 void Node::create_and_send_message_if_needed()
@@ -51,24 +53,11 @@ void Node::notify_unconfirmed_transactions_if_needed()
   if ((rand() % 100) < 25) {
     std::vector<Transaction> *transactions = new std::vector<Transaction>;
     Message *payload = new UnconfirmedTransactions(my_id, transactions);
-    //Message *payload = new Otro(my_id, 1234);
     send_message_to_peers(payload);
-    XBT_INFO("Tengo que notificar de transacciones no confirmadas");
   }
 }
 
 void Node::send_message_to_peers(Message* payload) {
-    switch (payload->get_type()) {
-      case MESSAGE_TRANSACTION:
-        XBT_INFO("Envio message transaction");
-        break;
-      case UNCONFIRMED_TRANSACTIONS:
-        XBT_INFO("Envio unconfirmed transactions");
-        break;
-      case MESSAGE_BLOCK:
-        XBT_INFO("Envio message block");
-        break;
-    }
     int random_peer_index_to_contact = (rand() % peers_to_contact) + 1;
     int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
     simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
@@ -103,7 +92,6 @@ void Node::receive()
         network_bytes_produced += payload->size;
         break;
       case UNCONFIRMED_TRANSACTIONS:
-        XBT_INFO("Recibi unconfirmed transactions");
         break;
       default:
         THROW_IMPOSSIBLE;

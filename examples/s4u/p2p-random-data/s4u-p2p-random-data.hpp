@@ -25,10 +25,11 @@ class Node : public BaseNode {
   int total_bytes_received = 0;
   simgrid::s4u::MailboxPtr my_mailbox;
   bool disconnect_notified = false;
-  static int network_bytes_produced;
 
 public:
   explicit Node(std::vector<std::string> args);
+  static int active_nodes;
+  static int network_bytes_produced;
   void operator()();
 
 protected:
@@ -53,6 +54,13 @@ public:
   explicit Miner(std::vector<std::string> args) : Node(args) {}
 protected:
   Message* get_message_to_send();
+};
+
+class Monitor
+{
+public:
+  explicit Monitor(std::vector<std::string> args);
+  void operator()();
 };
 
 #endif /* P2P_RANDOM_DATA_HPP */

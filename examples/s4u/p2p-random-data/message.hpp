@@ -31,10 +31,11 @@ class Transaction : public Message {
 
 class Block : public Message {
   public:
-    std::vector<Transaction> *transactions;
-    Block (int peer_id, std::vector<Transaction> *transactions) : Message(peer_id), transactions(transactions) {
-        for (auto const& transaction : *transactions) {
-          size += transaction.size;
+    std::map<int, Transaction> transactions;
+    Block (int peer_id, std::map<int, Transaction> transactions) : Message(peer_id), transactions(transactions) {
+        size += 1000000;
+        for (auto const& idAndTransaction : transactions) {
+          size += idAndTransaction.second.size;
         }
     };
 
@@ -45,8 +46,8 @@ class Block : public Message {
 
 class UnconfirmedTransactions : public Message {
   public:
-    std::vector<Transaction> *transactions;
-    UnconfirmedTransactions (int peer_id, std::vector<Transaction> *transactions) : Message(peer_id), transactions(transactions) { };
+    std::map<int, Transaction> unconfirmed_transactions;
+    UnconfirmedTransactions (int peer_id, std::map<int, Transaction> unconfirmed_transactions) : Message(peer_id), unconfirmed_transactions(unconfirmed_transactions) { };
 
     e_message_type get_type() {
       return UNCONFIRMED_TRANSACTIONS;

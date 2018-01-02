@@ -4,14 +4,18 @@ import networkx as nx
 from networkx.drawing.nx_pydot import write_dot
 import lxml.etree as et
 import argparse
+import enum
 from tempfile import NamedTemporaryFile
 import os
+
+CustomEnumType = enum.Enum("CustomEnumType", ("Full", "Dijkstra", "DijkstraCache"))
 
 parser = argparse.ArgumentParser(description='Create a platform xml file which will be compliant with SimGrid 4.1')
 parser.add_argument('--file', type=str, help='the file where to store the produdeced xml', required=True)
 parser.add_argument('--nodes', type=int, help='Number of nodes', required=True)
 parser.add_argument('--edges', type=int, help='Number of edges to attach from a new node to existing nodes', required=True)
 parser.add_argument('--seed', type=int, help='Seed for random number generato', required=False)
+parser.add_argument("--routing", type=str, action="store", choices=tuple(t.name for t in CustomEnumType), default=CustomEnumType.Full.name)
 
 args = parser.parse_args()
 
@@ -55,10 +59,16 @@ def add_zone_nodes(zone):
         link.set('latency', '10ms')
         zone.append(link)
         edge_number += 1
-    for e in G.edges:
-        (origin, destiny) = e
-        add_route_between_hosts(G, zone, origin, destiny)
-        add_route_between_hosts(G, zone, destiny, origin)
+    if CustomEnumType.Full.name == args.routing:
+        for origin in range(0, args.nodes):
+            for destiny in range(origin + 1, args.nodes):
+                add_route_between_hosts(G, zone, origin, destiny)
+                add_route_between_hosts(G, zone, destiny, origin)
+    else:
+        for e in G.edges:
+            (origin, destiny) = e
+            add_route_between_hosts(G, zone, origin, destiny)
+            add_route_between_hosts(G, zone, destiny, origin)
 
 def getTempFilenameWithXmlAndDoctypeHeaders():
     headers = '%s\n%s\n<platform version="4.1"></platform>\n' % (get_xml_header(), get_doctype_header())
@@ -73,7 +83,7 @@ def generate_platform():
     root = tree.getroot()
     zone = et.Element('zone')
     zone.set('id', 'AS0')
-    zone.set('routing', 'Dijkstra')
+    zone.set('routing', args.routing)
     add_zone_nodes(zone)
     root.append(zone)
     tree.write(args.file, xml_declaration=True, encoding="utf-8")

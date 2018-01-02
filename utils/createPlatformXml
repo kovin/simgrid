@@ -43,7 +43,6 @@ def add_route_between_hosts(G, zone, origin, destiny):
 
 def add_zone_nodes(zone):
     G = nx.barabasi_albert_graph(args.nodes, args.edges, args.seed)
-    write_dot(G, '/tmp/file.dot')
     for n in G.nodes:
         host = et.Element('host')
         host.set('id', 'node-%s' % n)

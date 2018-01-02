@@ -25,6 +25,17 @@ simgrid$ sudo make install
 simgrid$ ctest # to test that everything went smoothly
 ```
 
+# Creacion de archivos de platform con topologia barabasi
+## Con Full routing
+utils/createPlatformXml --file=barabasi_300_full_routing.nodes.xml --nodes=300 --edges=2 --routing=Full --seed=1
+## Con Dijkstra routing
+utils/createPlatformXml --file=barabasi_300_dijkstra_routing.nodes.xml --nodes=300 --edges=2 --routing=Dijkstra --seed=1
+## Con DijkstraCache routing
+utils/createPlatformXml --file=barabasi_300_dijkstracache_routing.nodes.xml --nodes=300 --edges=2 --routing=DijkstraCache --seed=1
+
+# Creacion de archivos de deployment
+utils/createDeploymentXml --file=300_nodes_deployment.xml --nodes=300 [--is-for-java]
+
 # Build & Run
 ## Build C
 ```bash

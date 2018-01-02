@@ -89,7 +89,6 @@ void Node::receive()
         break;
       case UNCONFIRMED_TRANSACTIONS:
         handle_unconfirmed_transactions(static_cast<UnconfirmedTransactions*>(data));
-        //XBT_INFO("Recibi unconfirmed transactions\n");
         break;
       default:
         THROW_IMPOSSIBLE;
@@ -111,26 +110,26 @@ void Node::handle_new_transaction(Transaction *transaction) {
 }
 
 void Node::handle_new_block(Block *block) {
-  int pre_size = compute_unconfirmed_transactions_size();
-  unconfirmed_transactions = DiffMaps(unconfirmed_transactions, block->transactions);
-  int post_size = compute_unconfirmed_transactions_size() + block->size;
-  XBT_INFO("Despues de recibir el bloque gane %d\n", post_size - pre_size);
-
-  total_bytes_received += (post_size - pre_size);
-  network_bytes_produced += (post_size - pre_size);
+  if (blockchain.find(block->id) == blockchain.end()) {
+    blockchain.insert(block->id);
+    int pre_size = compute_unconfirmed_transactions_size();
+    unconfirmed_transactions = DiffMaps(unconfirmed_transactions, block->transactions);
+    int post_size = compute_unconfirmed_transactions_size() + block->size;
+    total_bytes_received += (post_size - pre_size);
+    network_bytes_produced += (post_size - pre_size);
+  }
 }
 
 void Node::handle_unconfirmed_transactions(UnconfirmedTransactions *message) {
-  //XBT_INFO("START handle_unconfirmed_transactions\n");
   int pre_size = compute_unconfirmed_transactions_size();
   unconfirmed_transactions = JoinMaps(unconfirmed_transactions, message->unconfirmed_transactions);
   int post_size = compute_unconfirmed_transactions_size();
   total_bytes_received += (post_size - pre_size);
   network_bytes_produced += (post_size - pre_size);
-  //XBT_INFO("END handle_unconfirmed_transactions\n\t%d\n\t%d\n", pre_size, post_size);
 }
 
-int Node::compute_unconfirmed_transactions_size() {
+int Node::compute_unconfirmed_transactions_size()
+{
   int result = 0;
   typename std::map<int, Transaction>::const_iterator it = unconfirmed_transactions.begin();
   while (it != unconfirmed_transactions.end())
@@ -140,12 +139,7 @@ int Node::compute_unconfirmed_transactions_size() {
   }
   return result;
 }
-/*
-void Node::update_unconfirmed_transactions_size() {
-  int pre_size = compute_unconfirmed_transactions_size();
-  XBT_INFO("Empiezo con: %d\n", transaction.id);
-}
-*/
+
 simgrid::s4u::MailboxPtr Node::get_peer_mailbox(int peer_id)
 {
   std::string mboxName = std::string("receiver-") + std::to_string(peer_id);

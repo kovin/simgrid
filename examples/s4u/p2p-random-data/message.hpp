@@ -13,9 +13,11 @@ public:
   int peer_id;
   int size;
   Message(int peer_id, int size) : peer_id(peer_id), size(size) {
-      id = rand();
+    id = rand();
   };
-  Message(int peer_id): peer_id(peer_id), size(0) { };
+  Message(int peer_id): peer_id(peer_id), size(0) {
+    id = rand();
+  };
   virtual e_message_type get_type() = 0;
   ~Message() = default;
 };

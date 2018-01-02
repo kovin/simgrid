@@ -5,6 +5,7 @@
 #include "simgrid/s4u.hpp"
 #include "message.hpp"
 #include <cstdlib>
+#include <set>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -35,6 +36,7 @@ protected:
   int my_id;
   double messages_to_send = 90;
   std::map<int, Transaction> unconfirmed_transactions;
+  std::set<int> blockchain;
   void create_and_send_message_if_needed();
   Message* get_message_to_send();
   int compute_unconfirmed_transactions_size();

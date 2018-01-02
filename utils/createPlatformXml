@@ -26,6 +26,7 @@ def add_route_between_hosts(G, zone, origin, destiny):
     route = et.Element('route')
     route.set('src', 'node-%s' % origin)
     route.set('dst', 'node-%s' % destiny)
+    route.set('symmetrical', 'NO')
     zone.append(route)
     path = nx.shortest_path(G, origin, destiny)
     for i in range(0, len(path) - 1):
@@ -54,9 +55,10 @@ def add_zone_nodes(zone):
         link.set('latency', '10ms')
         zone.append(link)
         edge_number += 1
-    for origin in range(0, args.nodes):
-        for destiny in range(origin + 1, args.nodes):
-            add_route_between_hosts(G, zone, origin, destiny)
+    for e in G.edges:
+        (origin, destiny) = e
+        add_route_between_hosts(G, zone, origin, destiny)
+        add_route_between_hosts(G, zone, destiny, origin)
 
 def getTempFilenameWithXmlAndDoctypeHeaders():
     headers = '%s\n%s\n<platform version="4.1"></platform>\n' % (get_xml_header(), get_doctype_header())

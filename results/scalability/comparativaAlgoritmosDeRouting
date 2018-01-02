@@ -1,0 +1,20 @@
+sudo /home/kevin/exactas/simgrid/utils/runAndReturnRssAndTime.sh \
+/home/kevin/simgridexamples/msg/app-scalability/app-scalability \
+/home/kevin/exactas/simgrid/utils/barabasi_300_nodes_full_routing.xml \
+/home/kevin/exactas/simgrid/results/scalability/300_nodes_deployment_for_c.xml
+
+Results Dijkstra
+Used rss:        177144 kB
+Real time:       2533
+Simulation time: 54099.525129
+
+Results DijkstraCache
+Used rss:        175328 kB
+Real time:       828
+Simulation time: 54099.525129
+
+Results Full
+Used rss:        171720 kB
+Real time:       825
+Simulation time: 54099.525129
+

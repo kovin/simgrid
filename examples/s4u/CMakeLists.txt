@@ -22,10 +22,17 @@ endforeach()
 add_executable       (s4u-p2p-random-data p2p-random-data/s4u-p2p-random-data.cpp p2p-random-data/node.cpp p2p-random-data/miner.cpp p2p-random-data/monitor.cpp)
 target_link_libraries(s4u-p2p-random-data simgrid)
 set_target_properties(s4u-p2p-random-data PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/p2p-random-data)
-foreach (file p2p-random-data node miner monitor)
+foreach (file node miner monitor)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/${file}.cpp)
 endforeach()
-set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/p2p-random-data/p2p-random-data.hpp)
+
+# BLOCK VERIFICATION EXAMPLE
+add_executable       (s4u-block-verification block-verification/s4u-block-verification.cpp block-verification/node.cpp block-verification/miner.cpp block-verification/monitor.cpp)
+target_link_libraries(s4u-block-verification simgrid)
+set_target_properties(s4u-block-verification PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/block-verification)
+foreach (file node miner monitor)
+  set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/block-verification/${file}.cpp)
+endforeach()
 
 # CHORD EXAMPLE
 add_executable       (s4u-dht-chord dht-chord/s4u-dht-chord.cpp dht-chord/node.cpp)

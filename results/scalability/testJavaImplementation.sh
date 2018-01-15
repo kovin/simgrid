@@ -5,7 +5,7 @@ for i in 25 50 75 100 125 150 175 200 225 250 275 300;
     echo ""
     echo "------------------------------------------------------------------"
     echo ""
-    echo "Results for $i nodes in the app-scalability experiment for Java";
+    echo "Results for $i nodes in the app-scalability experiment for Java (bindings for MSG)";
     sudo /home/kevin/exactas/simgrid/utils/runAndReturnRssAndTime.sh \
     java -cp /home/kevin/exactas/simgrid/examples/java/:/home/kevin/exactas/simgrid/simgrid.jar \
     app.scalability.Main \

@@ -13,9 +13,9 @@ void Miner::create_and_send_message_if_needed()
 Message* Miner::get_message_to_send()
 {
   Message* message = new Block(my_id, unconfirmed_transactions);
-  int pre_size = compute_unconfirmed_transactions_size();
-  unconfirmed_transactions = std::map<int, Transaction>();
-  int post_size = compute_unconfirmed_transactions_size();
+  long pre_size = compute_unconfirmed_transactions_size();
+  unconfirmed_transactions = std::map<long, Transaction>();
+  long post_size = compute_unconfirmed_transactions_size();
   total_bytes_received += (post_size - pre_size + message->size);
   network_bytes_produced += (post_size - pre_size + message->size);
   return message;

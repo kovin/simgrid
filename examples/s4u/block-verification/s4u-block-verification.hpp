@@ -29,18 +29,18 @@ class Node : public BaseNode {
 public:
   explicit Node(std::vector<std::string> args);
   static int active_nodes;
-  static int network_bytes_produced;
+  static long network_bytes_produced;
   void operator()();
 
 protected:
   int my_id;
   double messages_to_send = 90;
-  std::map<int, Transaction> unconfirmed_transactions;
-  std::set<int> blockchain;
+  std::map<long, Transaction> unconfirmed_transactions;
+  std::set<long> blockchain;
   void create_and_send_message_if_needed();
   Message* get_message_to_send();
-  int compute_unconfirmed_transactions_size();
-  int total_bytes_received = 0;
+  long compute_unconfirmed_transactions_size();
+  long total_bytes_received = 0;
   void handle_new_transaction(Transaction *transaction);
   void handle_new_block(Block *block);
   void handle_unconfirmed_transactions(UnconfirmedTransactions *message);

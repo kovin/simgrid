@@ -7,14 +7,14 @@
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(block_verification);
 
 int Node::active_nodes = 0;
-int Node::network_bytes_produced = 0;
+long Node::network_bytes_produced = 0;
 
 Node::Node(std::vector<std::string> args)
 {
   active_nodes++;
   xbt_assert(args.size() == 3, "Expecting 2 parameters from the XML deployment file but got %zu", args.size());
-  my_id = std::stoi(args[1]);
-  peers_count = std::stoi(args[2]);
+  my_id = std::stol(args[1]);
+  peers_count = std::stol(args[2]);
   xbt_assert(peers_count > 0, "You should define at least one peer");
   connected_peers = peers_count - 1;
   std::string my_mailbox_name = std::string("receiver-") + std::to_string(my_id);
@@ -67,7 +67,7 @@ void Node::send_message_to_peers(Message* payload) {
 
 Message* Node::get_message_to_send()
 {
-  int numberOfBytes = rand() & 100000;
+  long numberOfBytes = rand() & 100000;
   Message* message = new Transaction(my_id, numberOfBytes);
   total_bytes_received += message->size;
   network_bytes_produced += message->size;
@@ -98,12 +98,12 @@ void Node::receive()
 }
 
 void Node::handle_new_transaction(Transaction *transaction) {
-  std::map<int, Transaction>::iterator it;
+  std::map<long, Transaction>::iterator it;
   it = unconfirmed_transactions.find(transaction->id);
   if (it == unconfirmed_transactions.end()) {
-    int pre_size = compute_unconfirmed_transactions_size();
+    long pre_size = compute_unconfirmed_transactions_size();
     unconfirmed_transactions.insert(std::make_pair(transaction->id, *transaction));
-    int post_size = compute_unconfirmed_transactions_size();
+    long post_size = compute_unconfirmed_transactions_size();
     total_bytes_received += (post_size - pre_size);
     network_bytes_produced += (post_size - pre_size);
   }
@@ -112,26 +112,26 @@ void Node::handle_new_transaction(Transaction *transaction) {
 void Node::handle_new_block(Block *block) {
   if (blockchain.find(block->id) == blockchain.end()) {
     blockchain.insert(block->id);
-    int pre_size = compute_unconfirmed_transactions_size();
+    long pre_size = compute_unconfirmed_transactions_size();
     unconfirmed_transactions = DiffMaps(unconfirmed_transactions, block->transactions);
-    int post_size = compute_unconfirmed_transactions_size() + block->size;
+    long post_size = compute_unconfirmed_transactions_size() + block->size;
     total_bytes_received += (post_size - pre_size);
     network_bytes_produced += (post_size - pre_size);
   }
 }
 
 void Node::handle_unconfirmed_transactions(UnconfirmedTransactions *message) {
-  int pre_size = compute_unconfirmed_transactions_size();
+  long pre_size = compute_unconfirmed_transactions_size();
   unconfirmed_transactions = JoinMaps(unconfirmed_transactions, message->unconfirmed_transactions);
-  int post_size = compute_unconfirmed_transactions_size();
+  long post_size = compute_unconfirmed_transactions_size();
   total_bytes_received += (post_size - pre_size);
   network_bytes_produced += (post_size - pre_size);
 }
 
-int Node::compute_unconfirmed_transactions_size()
+long Node::compute_unconfirmed_transactions_size()
 {
-  int result = 0;
-  typename std::map<int, Transaction>::const_iterator it = unconfirmed_transactions.begin();
+  long result = 0;
+  typename std::map<long, Transaction>::const_iterator it = unconfirmed_transactions.begin();
   while (it != unconfirmed_transactions.end())
   {
     result += it->second.size;

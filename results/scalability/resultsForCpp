@@ -1,7 +1,7 @@
 ---------------------------------------------------------------
 
-Results for 25 nodes in the app-scalability experiment for C (MSG)
-Used rss:        240 kB
+Results for 25 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        1340 kB
 Real time:       0
 Simulation time: 12.130316
 
@@ -10,8 +10,8 @@ Simulation time: 12.130316
 
 ---------------------------------------------------------------
 
-Results for 50 nodes in the app-scalability experiment for C (MSG)
-Used rss:        1324 kB
+Results for 50 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        1344 kB
 Real time:       0
 Simulation time: 24.630316
 
@@ -20,8 +20,8 @@ Simulation time: 24.630316
 
 ---------------------------------------------------------------
 
-Results for 75 nodes in the app-scalability experiment for C (MSG)
-Used rss:        1328 kB
+Results for 75 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        1364 kB
 Real time:       0
 Simulation time: 37.130316
 
@@ -30,9 +30,9 @@ Simulation time: 37.130316
 
 ---------------------------------------------------------------
 
-Results for 100 nodes in the app-scalability experiment for C (MSG)
-Used rss:        23516 kB
-Real time:       2
+Results for 100 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        22516 kB
+Real time:       1
 Simulation time: 49.630316
 
 ---------------------------------------------------------------
@@ -40,8 +40,8 @@ Simulation time: 49.630316
 
 ---------------------------------------------------------------
 
-Results for 125 nodes in the app-scalability experiment for C (MSG)
-Used rss:        32416 kB
+Results for 125 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        31164 kB
 Real time:       4
 Simulation time: 62.130316
 
@@ -50,8 +50,8 @@ Simulation time: 62.130316
 
 ---------------------------------------------------------------
 
-Results for 150 nodes in the app-scalability experiment for C (MSG)
-Used rss:        43808 kB
+Results for 150 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        41792 kB
 Real time:       8
 Simulation time: 74.630316
 
@@ -60,8 +60,8 @@ Simulation time: 74.630316
 
 ---------------------------------------------------------------
 
-Results for 175 nodes in the app-scalability experiment for C (MSG)
-Used rss:        56668 kB
+Results for 175 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        54128 kB
 Real time:       15
 Simulation time: 87.130316
 
@@ -70,8 +70,8 @@ Simulation time: 87.130316
 
 ---------------------------------------------------------------
 
-Results for 200 nodes in the app-scalability experiment for C (MSG)
-Used rss:        71688 kB
+Results for 200 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        68276 kB
 Real time:       21
 Simulation time: 99.630316
 
@@ -80,8 +80,8 @@ Simulation time: 99.630316
 
 ---------------------------------------------------------------
 
-Results for 225 nodes in the app-scalability experiment for C (MSG)
-Used rss:        88376 kB
+Results for 225 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        82776 kB
 Real time:       32
 Simulation time: 112.130316
 
@@ -90,9 +90,9 @@ Simulation time: 112.130316
 
 ---------------------------------------------------------------
 
-Results for 250 nodes in the app-scalability experiment for C (MSG)
-Used rss:        107196 kB
-Real time:       43
+Results for 250 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        100516 kB
+Real time:       45
 Simulation time: 124.630316
 
 ---------------------------------------------------------------
@@ -100,9 +100,9 @@ Simulation time: 124.630316
 
 ---------------------------------------------------------------
 
-Results for 275 nodes in the app-scalability experiment for C (MSG)
-Used rss:        126560 kB
-Real time:       61
+Results for 275 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        120808 kB
+Real time:       62
 Simulation time: 137.130316
 
 ---------------------------------------------------------------
@@ -110,9 +110,9 @@ Simulation time: 137.130316
 
 ---------------------------------------------------------------
 
-Results for 300 nodes in the app-scalability experiment for C (MSG)
-Used rss:        149016 kB
-Real time:       82
+Results for 300 nodes in the app-scalability experiment for CPP (S4U)
+Used rss:        141624 kB
+Real time:       88
 Simulation time: 149.630316
 
 ---------------------------------------------------------------

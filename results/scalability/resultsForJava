@@ -1,118 +1,119 @@
 ------------------------------------------------------------------
 
-Results for 25 nodes in the app-scalability experiment for Java
-Used rss:        26464 kB
-Real time:       2
-Simulation time: 325.372368
-
-------------------------------------------------------------------
-
-
-------------------------------------------------------------------
-
-Results for 50 nodes in the app-scalability experiment for Java
-Used rss:        35568 kB
+Results for 25 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        2240 kB
 Real time:       1
-Simulation time: 650.614636
+Simulation time: 12.130316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 75 nodes in the app-scalability experiment for Java
-Used rss:        40860 kB
-Real time:       4
-Simulation time: 767.862059
+Results for 50 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        2184 kB
+Real time:       0
+Simulation time: 24.630316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 100 nodes in the app-scalability experiment for Java
-Used rss:        70428 kB
-Real time:       15
-Simulation time: 889.758966
+Results for 75 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        42372 kB
+Real time:       1
+Simulation time: 37.130316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 125 nodes in the app-scalability experiment for Java
-Used rss:        89712 kB
-Real time:       38
-Simulation time: 1118.753811
+Results for 100 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        54504 kB
+Real time:       2
+Simulation time: 49.630316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 150 nodes in the app-scalability experiment for Java
-Used rss:        108908 kB
-Real time:       71
-Simulation time: 1358.398141
+Results for 125 nodes in the app-scalability experiment for Java (bindings for MSG)
+cat: /proc/10220/status: No such file or directory
+Used rss:        89516 kB
+Real time:       5
+Simulation time: 62.130316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 175 nodes in the app-scalability experiment for Java
-Used rss:        146824 kB
-Real time:       124
-Simulation time: 1710.289894
+Results for 150 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        105624 kB
+Real time:       10
+Simulation time: 74.630316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 200 nodes in the app-scalability experiment for Java
-Used rss:        150672 kB
-Real time:       180
-Simulation time: 1668.490925
+Results for 175 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        129408 kB
+Real time:       16
+Simulation time: 87.130316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 225 nodes in the app-scalability experiment for Java
-Used rss:        177216 kB
-Real time:       295
-Simulation time: 2149.779585
+Results for 200 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        144836 kB
+Real time:       26
+Simulation time: 99.630316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 250 nodes in the app-scalability experiment for Java
-Used rss:        205248 kB
-Real time:       415
-Simulation time: 2675.867213
+Results for 225 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        180696 kB
+Real time:       37
+Simulation time: 112.130316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 275 nodes in the app-scalability experiment for Java
-Used rss:        267808 kB
-Real time:       561
-Simulation time: 2498.171337
+Results for 250 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        204860 kB
+Real time:       51
+Simulation time: 124.630316
 
 ------------------------------------------------------------------
 
 
 ------------------------------------------------------------------
 
-Results for 300 nodes in the app-scalability experiment for Java
-Used rss:        286432 kB
-Real time:       1116
-Simulation time: 2679.367213
+Results for 275 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        224976 kB
+Real time:       70
+Simulation time: 137.130316
+
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+
+Results for 300 nodes in the app-scalability experiment for Java (bindings for MSG)
+Used rss:        259580 kB
+Real time:       94
+Simulation time: 149.630316
 
 ------------------------------------------------------------------

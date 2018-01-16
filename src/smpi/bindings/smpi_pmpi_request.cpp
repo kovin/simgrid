@@ -548,6 +548,23 @@ int PMPI_Iprobe(int source, int tag, MPI_Comm comm, int* flag, MPI_Status* statu
   return retval;
 }
 
+// TODO: cheinrich: Move declaration to other file? Rename this function - it's used for PMPI_Wait*?
+static void trace_smpi_recv_helper(MPI_Request* request, MPI_Status* status);
+static void trace_smpi_recv_helper(MPI_Request* request, MPI_Status* status)
+{
+  MPI_Request req = *request;
+  if (req != MPI_REQUEST_NULL) { // Received requests become null
+    int src_traced = req->src();
+    // the src may not have been known at the beginning of the recv (MPI_ANY_SOURCE)
+    int dst_traced = req->dst();
+    if (req->flags() & RECV) { // Is this request a wait for RECV?
+      if (src_traced == MPI_ANY_SOURCE)
+        src_traced = (status != MPI_STATUSES_IGNORE) ? req->comm()->group()->rank(status->MPI_SOURCE) : req->src();
+      TRACE_smpi_recv(src_traced, dst_traced, req->tag());
+    }
+  }
+}
+
 int PMPI_Wait(MPI_Request * request, MPI_Status * status)
 {
   int retval = 0;
@@ -563,11 +580,6 @@ int PMPI_Wait(MPI_Request * request, MPI_Status * status)
   } else {
     int rank = (*request)->comm() != MPI_COMM_NULL ? smpi_process()->index() : -1;
 
-    int src_traced = (*request)->src();
-    int dst_traced = (*request)->dst();
-    int tag_traced= (*request)->tag();
-    MPI_Comm comm = (*request)->comm();
-    int is_wait_for_receive = ((*request)->flags() & RECV);
     TRACE_smpi_comm_in(rank, __FUNCTION__, new simgrid::instr::NoOpTIData("wait"));
 
     simgrid::smpi::Request::wait(request, status);
@@ -575,11 +587,7 @@ int PMPI_Wait(MPI_Request * request, MPI_Status * status)
 
     //the src may not have been known at the beginning of the recv (MPI_ANY_SOURCE)
     TRACE_smpi_comm_out(rank);
-    if (is_wait_for_receive) {
-      if(src_traced==MPI_ANY_SOURCE)
-        src_traced = (status != MPI_STATUS_IGNORE) ? comm->group()->rank(status->MPI_SOURCE) : src_traced;
-      TRACE_smpi_recv(src_traced, dst_traced, tag_traced);
-    }
+    trace_smpi_recv_helper(request, status);
   }
 
   smpi_bench_begin();
@@ -595,41 +603,16 @@ int PMPI_Waitany(int count, MPI_Request requests[], int *index, MPI_Status * sta
     return MPI_SUCCESS;
 
   smpi_bench_end();
-  //save requests information for tracing
-  struct savedvalstype {
-    int src;
-    int dst;
-    int recv;
-    int tag;
-    MPI_Comm comm;
-  };
-  savedvalstype* savedvals = xbt_new0(savedvalstype, count);
 
-  for (int i = 0; i < count; i++) {
-    MPI_Request req = requests[i];      //already received requests are no longer valid
-    if (req) {
-      savedvals[i]=(savedvalstype){req->src(), req->dst(), (req->flags() & RECV), req->tag(), req->comm()};
-    }
-  }
-  int rank_traced = smpi_process()->index();
+  int rank_traced = smpi_process()->index(); // FIXME: In PMPI_Wait, we check if the comm is null?
   TRACE_smpi_comm_in(rank_traced, __FUNCTION__, new simgrid::instr::CpuTIData("waitAny", static_cast<double>(count)));
 
   *index = simgrid::smpi::Request::waitany(count, requests, status);
 
   if(*index!=MPI_UNDEFINED){
-    int src_traced = savedvals[*index].src;
-    //the src may not have been known at the beginning of the recv (MPI_ANY_SOURCE)
-    int dst_traced = savedvals[*index].dst;
-    int is_wait_for_receive = savedvals[*index].recv;
-    if (is_wait_for_receive) {
-      if(savedvals[*index].src==MPI_ANY_SOURCE)
-        src_traced = (status != MPI_STATUSES_IGNORE) ? savedvals[*index].comm->group()->rank(status->MPI_SOURCE)
-                                                     : savedvals[*index].src;
-      TRACE_smpi_recv(src_traced, dst_traced, savedvals[*index].tag);
-    }
+    trace_smpi_recv_helper(&requests[*index], status);
     TRACE_smpi_comm_out(rank_traced);
   }
-  xbt_free(savedvals);
 
   smpi_bench_begin();
   return MPI_SUCCESS;
@@ -638,46 +621,16 @@ int PMPI_Waitany(int count, MPI_Request requests[], int *index, MPI_Status * sta
 int PMPI_Waitall(int count, MPI_Request requests[], MPI_Status status[])
 {
   smpi_bench_end();
-  //save information from requests
-  struct savedvalstype {
-    int src;
-    int dst;
-    int recv;
-    int tag;
-    int valid;
-    MPI_Comm comm;
-  };
-  savedvalstype* savedvals=xbt_new0(savedvalstype, count);
 
-  for (int i = 0; i < count; i++) {
-    MPI_Request req = requests[i];
-    if(req!=MPI_REQUEST_NULL){
-      savedvals[i]=(savedvalstype){req->src(), req->dst(), (req->flags() & RECV), req->tag(), 1, req->comm()};
-    }else{
-      savedvals[i].valid=0;
-    }
-  }
-  int rank_traced = smpi_process()->index();
+  int rank_traced = smpi_process()->index(); // FIXME: In PMPI_Wait, we check if the comm is null?
   TRACE_smpi_comm_in(rank_traced, __FUNCTION__, new simgrid::instr::CpuTIData("waitAll", static_cast<double>(count)));
 
   int retval = simgrid::smpi::Request::waitall(count, requests, status);
 
   for (int i = 0; i < count; i++) {
-    if(savedvals[i].valid){
-      // the src may not have been known at the beginning of the recv (MPI_ANY_SOURCE)
-      int src_traced = savedvals[i].src;
-      int dst_traced = savedvals[i].dst;
-      int is_wait_for_receive = savedvals[i].recv;
-      if (is_wait_for_receive) {
-        if(src_traced==MPI_ANY_SOURCE)
-          src_traced = (status != MPI_STATUSES_IGNORE) ? savedvals[i].comm->group()->rank(status[i].MPI_SOURCE)
-                                                       : savedvals[i].src;
-        TRACE_smpi_recv(src_traced, dst_traced,savedvals[i].tag);
-      }
-    }
+    trace_smpi_recv_helper(&requests[i], &status[i]);
   }
   TRACE_smpi_comm_out(rank_traced);
-  xbt_free(savedvals);
 
   smpi_bench_begin();
   return retval;

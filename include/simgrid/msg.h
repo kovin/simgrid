@@ -1,4 +1,4 @@
-/* Copyright (c) 2004-2017. The SimGrid Team. All rights reserved.          */
+/* Copyright (c) 2004-2018. The SimGrid Team. All rights reserved.          */
 
 /* This program is free software; you can redistribute it and/or modify it
  * under the terms of the license (GNU LGPL) which comes with this package. */
@@ -6,9 +6,9 @@
 #ifndef MSG_H
 #define MSG_H
 
-#include "simgrid/datatypes.h"
 #include "simgrid/forward.h"
 #include "simgrid/host.h"
+#include "simgrid/plugins/live_migration.h"
 
 #include "xbt/base.h"
 #include "xbt/dict.h"
@@ -169,53 +169,6 @@ XBT_PUBLIC(const char*) MSG_zone_get_property_value(msg_netzone_t as, const char
 XBT_PUBLIC(void) MSG_zone_set_property_value(msg_netzone_t netzone, const char* name, char* value);
 XBT_PUBLIC(void) MSG_zone_get_hosts(msg_netzone_t zone, xbt_dynar_t whereto);
 
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_get_root() instead: v3.19 will turn this warning into an error.") static inline msg_netzone_t
-    MSG_environment_get_routing_root()
-{
-  return MSG_zone_get_root();
-}
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_get_name() instead: v3.19 will turn this warning into an error.") static inline const
-    char* MSG_environment_as_get_name(msg_netzone_t zone)
-{
-  return MSG_zone_get_name(zone);
-}
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_get_by_name() instead: v3.19 will turn this warning into an error.") static inline msg_netzone_t
-    MSG_environment_as_get_by_name(const char* name)
-{
-  return MSG_zone_get_by_name(name);
-}
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_get_sons() instead: v3.19 will turn this warning into an error.") static inline xbt_dict_t
-    MSG_environment_as_get_routing_sons(msg_netzone_t zone)
-{
-  xbt_dict_t res = xbt_dict_new_homogeneous(NULL);
-  MSG_zone_get_sons(zone, res);
-  return res;
-}
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_get_property_value() instead: v3.19 will turn this warning into an error.") static inline const
-    char* MSG_environment_as_get_property_value(msg_netzone_t zone, const char* name)
-{
-  return MSG_zone_get_property_value(zone, name);
-}
-XBT_ATTRIB_DEPRECATED_v319(
-    "Use MSG_zone_set_property_value() instead: v3.19 will remove MSG_environment_as_set_property_value() "
-    "completely.") static inline void MSG_environment_as_set_property_value(msg_netzone_t zone, const char* name,
-                                                                            char* value)
-{
-  MSG_zone_set_property_value(zone, name, value);
-}
-XBT_ATTRIB_DEPRECATED_v319("Use MSG_zone_get_hosts() instead: v3.19 will remove MSG_environment_as_get_hosts() "
-                           "completely.") static inline xbt_dynar_t MSG_environment_as_get_hosts(msg_netzone_t zone)
-{
-  xbt_dynar_t res = xbt_dynar_new(sizeof(sg_host_t), NULL);
-  MSG_zone_get_hosts(zone, res);
-  return res;
-}
-
 /************************** Storage handling ***********************************/
 XBT_PUBLIC(const char *) MSG_storage_get_name(msg_storage_t storage);
 XBT_PUBLIC(msg_storage_t) MSG_storage_get_by_name(const char *name);
@@ -247,11 +200,6 @@ XBT_PUBLIC(void) MSG_host_get_process_list(msg_host_t h, xbt_dynar_t whereto);
 XBT_PUBLIC(int) MSG_host_is_on(msg_host_t h);
 XBT_PUBLIC(int) MSG_host_is_off(msg_host_t h);
 
-XBT_ATTRIB_DEPRECATED_v319("Use MSG_host_get_speed(): v3.19 will drop MSG_get_host_speed() "
-                           "completely.") static inline double MSG_get_host_speed(msg_host_t host)
-{
-  return MSG_host_get_speed(host);
-}
 XBT_ATTRIB_DEPRECATED_v320("Use MSG_host_get_speed(): v3.20 will drop MSG_host_get_current_power_peak() "
                            "completely.") static inline double MSG_host_get_current_power_peak(msg_host_t host)
 {
@@ -459,20 +407,22 @@ XBT_PUBLIC(int) MSG_barrier_wait(msg_bar_t bar);
 
 XBT_PUBLIC(int) MSG_vm_is_created(msg_vm_t vm);
 XBT_PUBLIC(int) MSG_vm_is_running(msg_vm_t vm);
-XBT_PUBLIC(int) MSG_vm_is_migrating(msg_vm_t vm);
 XBT_PUBLIC(int) MSG_vm_is_suspended(msg_vm_t vm);
 
 XBT_PUBLIC(const char*) MSG_vm_get_name(msg_vm_t vm);
-XBT_PUBLIC(void) MSG_vm_get_params(msg_vm_t vm, vm_params_t params);
-XBT_PUBLIC(void) MSG_vm_set_params(msg_vm_t vm, vm_params_t params);
 XBT_PUBLIC(void) MSG_vm_set_ramsize(msg_vm_t vm, size_t size);
 XBT_PUBLIC(size_t) MSG_vm_get_ramsize(msg_vm_t vm);
 
 // TODO add VDI later
 XBT_PUBLIC(msg_vm_t) MSG_vm_create_core(msg_host_t location, const char *name);
 XBT_PUBLIC(msg_vm_t) MSG_vm_create_multicore(msg_host_t pm, const char* name, int coreAmount);
-XBT_PUBLIC(msg_vm_t)
-MSG_vm_create(msg_host_t ind_pm, const char* name, int coreAmount, int ramsize, int mig_netspeed, int dp_intensity);
+
+XBT_ATTRIB_DEPRECATED_v321("Use MSG_vm_create_migratable() from the live migration plugin: "
+                           "v3.21 will drop MSG_vm_create() completely.") static msg_vm_t
+    MSG_vm_create(msg_host_t ind_pm, const char* name, int coreAmount, int ramsize, int mig_netspeed, int dp_intensity)
+{
+  return sg_vm_create_migratable(ind_pm, name, coreAmount, ramsize, mig_netspeed, dp_intensity);
+}
 
 XBT_PUBLIC(void) MSG_vm_destroy(msg_vm_t vm);
 
@@ -480,8 +430,6 @@ XBT_PUBLIC(void) MSG_vm_start(msg_vm_t vm);
 
 /* Shutdown the guest operating system. */
 XBT_PUBLIC(void) MSG_vm_shutdown(msg_vm_t vm);
-
-XBT_PUBLIC(void) MSG_vm_migrate(msg_vm_t vm, msg_host_t destination);
 
 /* Suspend the execution of the VM, but keep its state on memory. */
 XBT_PUBLIC(void) MSG_vm_suspend(msg_vm_t vm);

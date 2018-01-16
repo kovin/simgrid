@@ -20,6 +20,7 @@
 #include "simgrid/simix/blocking_simcall.hpp"
 #include "smx_private.hpp"
 #include "src/kernel/activity/CommImpl.hpp"
+#include "src/kernel/activity/MutexImpl.hpp"
 #include "src/mc/mc_forward.hpp"
 #include "src/mc/mc_replay.hpp"
 #include "src/plugins/vm/VirtualMachineImpl.hpp"
@@ -449,7 +450,7 @@ smx_mutex_t simcall_mutex_init()
     fprintf(stderr,"You must run MSG_init before using MSG\n"); // We can't use xbt_die since we may get there before the initialization
     xbt_abort();
   }
-  return simgrid::simix::kernelImmediate([] { return new simgrid::simix::MutexImpl(); });
+  return simgrid::simix::kernelImmediate([] { return new simgrid::kernel::activity::MutexImpl(); });
 }
 
 /**

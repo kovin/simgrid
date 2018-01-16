@@ -24,14 +24,17 @@ public:
   void post() override;
   double remains();
   double remainingRatio();
+  void setBound(double bound);
+  virtual ActivityImpl* migrate(s4u::Host* to);
 
-  /* The host where the execution takes place. If nullptr, then this is a parallel exec (and only surf
-                  knows the hosts) */
+  /* The host where the execution takes place. nullptr means this is a parallel exec (and only surf knows the hosts) */
   sg_host_t host_               = nullptr;
   surf_action_t surfAction_     = nullptr; /* The Surf execution action encapsulated */
   surf::Action* timeoutDetector = nullptr;
   static simgrid::xbt::signal<void(kernel::activity::ExecImplPtr)> onCreation;
   static simgrid::xbt::signal<void(kernel::activity::ExecImplPtr)> onCompletion;
+  static simgrid::xbt::signal<void(simgrid::kernel::activity::ExecImplPtr, simgrid::s4u::Host*)> onMigration;
+
 };
 }
 }

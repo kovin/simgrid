@@ -145,6 +145,10 @@ void SIMIX_process_empty_trash()
 }
 
 namespace simgrid {
+
+namespace s4u {
+simgrid::xbt::signal<void(simgrid::s4u::ActorPtr)> s4u::Actor::onCreation; // TODO cheinrich is this the right location here?
+}
 namespace simix {
 
 ActorImpl::~ActorImpl()
@@ -360,6 +364,12 @@ smx_actor_t SIMIX_process_create(const char* name, std::function<void()> code, v
 
   /* Tracing the process creation */
   TRACE_msg_process_create(process->getName(), process->pid, process->host);
+  /* Note by cheinrich: If you move this directly after the "new ActorImpl", the pid
+   * will not yet be set and you will cause issues when other code relies on that.
+   * This is of course also true for the other properties, so I moved this here.
+   */
+  simgrid::s4u::ActorPtr tmp = process->iface(); // Passing this directly to onCreation will lead to crashes
+  simgrid::s4u::Actor::onCreation(tmp);
 
   return process;
 }
@@ -607,12 +617,12 @@ void SIMIX_process_killall(smx_actor_t issuer, int reset_pid)
     simix_process_maxpid = reset_pid;
 }
 
-void SIMIX_process_change_host(smx_actor_t process, sg_host_t dest)
+void SIMIX_process_change_host(smx_actor_t actor, sg_host_t dest)
 {
-  xbt_assert((process != nullptr), "Invalid parameters");
-  simgrid::xbt::intrusive_erase(process->host->extension<simgrid::simix::Host>()->process_list, *process);
-  process->host = dest;
-  dest->extension<simgrid::simix::Host>()->process_list.push_back(*process);
+  xbt_assert((actor != nullptr), "Invalid parameters");
+  simgrid::xbt::intrusive_erase(actor->host->extension<simgrid::simix::Host>()->process_list, *actor);
+  actor->host = dest;
+  dest->extension<simgrid::simix::Host>()->process_list.push_back(*actor);
 }
 
 void simcall_HANDLER_process_suspend(smx_simcall_t simcall, smx_actor_t process)
@@ -743,11 +753,6 @@ void SIMIX_process_yield(smx_actor_t self)
 
   /* Ok, maestro returned control to us */
   XBT_DEBUG("Control returned to me: '%s'", self->name.c_str());
-
-  if (self->new_host) {
-    SIMIX_process_change_host(self, self->new_host);
-    self->new_host = nullptr;
-  }
 
   if (self->context->iwannadie){
     XBT_DEBUG("I wanna die!");

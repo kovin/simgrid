@@ -30,6 +30,8 @@ namespace activity {
   using ExecImplPtr = boost::intrusive_ptr<ExecImpl>;
   class IoImpl;
   using IoImplPtr = boost::intrusive_ptr<IoImpl>;
+  class MutexImpl;
+  using MutexImplPtr = boost::intrusive_ptr<MutexImpl>;
   class RawImpl;
   using RawImplPtr = boost::intrusive_ptr<RawImpl>;
   class SleepImpl;
@@ -53,9 +55,8 @@ namespace simix {
   class ActorImpl;
   using ActorImplPtr = boost::intrusive_ptr<ActorImpl>;
   class Host;
-
-  class MutexImpl;
 }
+
 namespace surf {
   class Resource;
   class Cpu;
@@ -84,7 +85,7 @@ typedef simgrid::trace_mgr::trace tmgr_Trace;
 
 typedef simgrid::kernel::context::Context* smx_context_t;
 typedef simgrid::simix::ActorImpl* smx_actor_t;
-typedef simgrid::simix::MutexImpl* smx_mutex_t;
+typedef simgrid::kernel::activity::MutexImpl* smx_mutex_t;
 typedef simgrid::kernel::activity::MailboxImpl* smx_mailbox_t;
 typedef simgrid::surf::StorageImpl* surf_storage_t;
 
@@ -137,19 +138,6 @@ typedef enum { // FIXME: move this to s4u::Link; make it an enum class
   SURF_LINK_SHARED     = 1,
   SURF_LINK_FATPIPE    = 0
 } e_surf_link_sharing_policy_t;
-
-typedef enum { // FIXME: move this away; make it an enum class
-  SURF_TRACE_CONNECT_KIND_HOST_AVAIL = 4,
-  SURF_TRACE_CONNECT_KIND_SPEED      = 3,
-  SURF_TRACE_CONNECT_KIND_LINK_AVAIL = 2,
-  SURF_TRACE_CONNECT_KIND_BANDWIDTH  = 1,
-  SURF_TRACE_CONNECT_KIND_LATENCY    = 0
-} e_surf_trace_connect_kind_t;
-
-typedef enum { // FIXME: move this to s4u::Actor; make it an enum class
-  SURF_ACTOR_ON_FAILURE_DIE     = 1,
-  SURF_ACTOR_ON_FAILURE_RESTART = 0
-} e_surf_process_on_failure_t;
 
 /** @ingroup m_datatypes_management_details
  * @brief Type for any simgrid size

@@ -10,6 +10,8 @@
 #include "src/mc/mc_replay.hpp"
 #include "src/simix/smx_private.hpp"
 
+#include "src/kernel/activity/MutexImpl.hpp"
+
 #if SIMGRID_HAVE_MC
 #include "src/mc/ModelChecker.hpp"
 

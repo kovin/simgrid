@@ -1,10 +1,9 @@
 # C examples
-foreach(x app-masterworker
+foreach(x app-masterworker cloud-masterworker
+          dht-pastry energy-vm platform-failures 
+          process-create 
+          synchro-semaphore trace-categories 
           app-scalability
-          cloud-capping cloud-masterworker cloud-migration
-          dht-pastry energy-vm platform-failures
-          process-create
-          synchro-semaphore trace-categories
           trace-route-user-variables trace-link-user-variables trace-masterworker
           trace-process-migration trace-host-user-variables)
   add_executable       (${x}     ${x}/${x}.c)
@@ -60,9 +59,8 @@ set(xml_files    ${xml_files}     ${CMAKE_CURRENT_SOURCE_DIR}/app-masterworker/a
                                   ${CMAKE_CURRENT_SOURCE_DIR}/network-ns3/one_cluster_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/network-ns3/two_clusters_d.xml       PARENT_SCOPE)
 
-foreach(x app-masterworker
+foreach(x app-masterworker cloud-masterworker
           app-scalability
-          cloud-capping cloud-masterworker cloud-migration
           dht-pastry dht-kademlia platform-failures
           energy-vm
           process-create

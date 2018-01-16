@@ -136,6 +136,16 @@ Activity* Comm::wait(double timeout)
   }
   return this;
 }
+int Comm::test_any(std::vector<CommPtr>* comms)
+{
+  smx_activity_t* array = new smx_activity_t[comms->size()];
+  for (unsigned int i = 0; i < comms->size(); i++) {
+    array[i] = comms->at(i)->pimpl_;
+  }
+  int res = simcall_comm_testany(array, comms->size());
+  delete[] array;
+  return res;
+}
 
 Activity* Comm::detach()
 {

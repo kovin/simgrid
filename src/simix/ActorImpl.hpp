@@ -25,11 +25,23 @@ class ProcessArg {
 public:
   std::string name;
   std::function<void()> code;
-  void *data            = nullptr;
-  sg_host_t host        = nullptr;
+  void* data            = nullptr;
+  s4u::Host* host       = nullptr;
   double kill_time      = 0.0;
   std::shared_ptr<std::map<std::string, std::string>> properties;
   bool auto_restart     = false;
+  ProcessArg()          = default;
+  explicit ProcessArg(std::string name, std::function<void()> code, void* data, s4u::Host* host, double kill_time,
+                      std::shared_ptr<std::map<std::string, std::string>> properties, bool auto_restart)
+      : name(name)
+      , code(std::move(code))
+      , data(data)
+      , host(host)
+      , kill_time(kill_time)
+      , properties(properties)
+      , auto_restart(auto_restart)
+  {
+  }
 };
 
 class ActorImpl : public simgrid::surf::PropertyHolder {
@@ -56,7 +68,6 @@ public:
   bool suspended    = false;
   bool auto_restart = false;
 
-  sg_host_t new_host             = nullptr; /* if not null, the host on which the process must migrate to */
   smx_activity_t waiting_synchro = nullptr; /* the current blocking synchro if any */
   std::list<smx_activity_t> comms;          /* the current non-blocking communication synchros */
   s_smx_simcall_t simcall;
@@ -113,6 +124,10 @@ public:
   void* getUserData() { return userdata; }
 };
 
+/* Used to keep the list of actors blocked on a synchro  */
+typedef boost::intrusive::list<ActorImpl, boost::intrusive::member_hook<ActorImpl, boost::intrusive::list_member_hook<>,
+                                                                        &ActorImpl::smx_synchro_hook>>
+    SynchroList;
 }
 }
 

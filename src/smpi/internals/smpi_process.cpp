@@ -67,13 +67,14 @@ void Process::set_data(int index, int* argc, char*** argv)
 {
     char* instance_id = (*argv)[1];
     comm_world_       = smpi_deployment_comm_world(instance_id);
-    msg_bar_t bar     = smpi_deployment_finalization_barrier(instance_id);
-    if (bar != nullptr) // don't overwrite the current one if the instance has none
-      finalization_barrier_ = bar;
+    msg_bar_t barrier = smpi_deployment_finalization_barrier(instance_id);
+    if (barrier != nullptr) // don't overwrite the current one if the instance has none
+      finalization_barrier_ = barrier;
     instance_id_ = instance_id;
     index_       = index;
 
-    static_cast<simgrid::msg::ActorExt*>(SIMIX_process_self()->userdata)->data = this;
+    process_                                                       = SIMIX_process_self();
+    static_cast<simgrid::msg::ActorExt*>(process_->userdata)->data = this;
 
     if (*argc > 3) {
       memmove(&(*argv)[0], &(*argv)[2], sizeof(char *) * (*argc - 2));
@@ -85,8 +86,7 @@ void Process::set_data(int index, int* argc, char*** argv)
     argv_ = argv;
     // set the process attached to the mailbox
     mailbox_small_->setReceiver(simgrid::s4u::Actor::self());
-    process_ = SIMIX_process_self();
-    XBT_DEBUG("<%d> New process in the game: %p", index_, SIMIX_process_self());
+    XBT_DEBUG("<%d> New process in the game: %p", index_, process_);
 }
 
 /** @brief Prepares the current process for termination. */
@@ -271,8 +271,7 @@ void Process::set_return_value(int val){
 void Process::init(int *argc, char ***argv){
 
   if (smpi_process_count() == 0) {
-    printf("SimGrid was not initialized properly before entering MPI_Init. Aborting, please check compilation process and use smpirun\n");
-    exit(1);
+    xbt_die("SimGrid was not initialized properly before entering MPI_Init. Aborting, please check compilation process and use smpirun\n");
   }
   if (argc != nullptr && argv != nullptr) {
     smx_actor_t proc = SIMIX_process_self();
@@ -296,7 +295,7 @@ void Process::init(int *argc, char ***argv){
     // this up here so that I can set the privatized region before the switch.
     Process* process = smpi_process_remote(index);
     if(smpi_privatize_global_variables == SMPI_PRIVATIZE_MMAP){
-      /* Now using segment index of the process  */
+      /* Now using the segment index of this process  */
       index = proc->segment_index;
       process->set_privatized_region(smpi_init_global_memory_segment_process());
       /* Done at the process's creation */

@@ -2,7 +2,7 @@ foreach (example actor-create actor-daemon actor-join actor-kill actor-lifetime 
                  app-chainsend app-masterworker app-pingpong app-token-ring
                  async-wait async-waitany async-waitall
                  scalability
-                 cloud-simple
+                 cloud-capping cloud-migration cloud-simple
                  energy-exec energy-boot energy-link energy-vm
                  exec-async exec-basic exec-dvfs exec-monitor exec-ptask exec-remote
                  io-file-system io-file-remote io-storage-raw
@@ -45,6 +45,18 @@ foreach (file s4u-dht-chord node)
 endforeach()
 set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/dht-chord/s4u-dht-chord.hpp)
 
+# KADEMLIA EXAMPLE
+add_executable       (s4u-dht-kademlia dht-kademlia/s4u-dht-kademlia.cpp dht-kademlia/node.cpp 
+                      dht-kademlia/routing_table.cpp dht-kademlia/answer.cpp)
+target_link_libraries(s4u-dht-kademlia simgrid)
+set_target_properties(s4u-dht-kademlia PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dht-kademlia)
+foreach (file answer routing_table node s4u-dht-kademlia)
+  set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.cpp 
+                                     ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/${file}.hpp)
+endforeach()
+set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/message.hpp)
+
+# BITTORRENT EXAMPLE
 add_executable       (s4u-bittorrent app-bittorrent/s4u-bittorrent.cpp app-bittorrent/s4u-peer.cpp
                       app-bittorrent/s4u-tracker.cpp)
 target_link_libraries(s4u-bittorrent simgrid)
@@ -57,6 +69,7 @@ endforeach()
 set(examples_src  ${examples_src}                                                                          PARENT_SCOPE)
 set(tesh_files    ${tesh_files}   ${CMAKE_CURRENT_SOURCE_DIR}/app-bittorrent/s4u-app-bittorrent.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/dht-chord/s4u-dht-chord.tesh
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/s4u-dht-kademlia.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/actor-lifetime/s4u-actor-lifetime.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/actor-yield/s4u-actor-yield.tesh
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-wait/s4u-async-wait.tesh
@@ -76,13 +89,15 @@ set(xml_files     ${xml_files}    ${CMAKE_CURRENT_SOURCE_DIR}/actor-create/s4u-a
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-waitall/s4u-async-waitall_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/async-wait/s4u-async-wait_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/dht-chord/s4u-dht-chord_d.xml
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/s4u-dht-kademlia_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/energy-boot/platform_boot.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/io-file-remote/s4u-io-file-remote_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/platform-properties/s4u-platform-properties_d.xml
-				  ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm-split_d.xml
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm-split_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm_d.xml
                                   ${CMAKE_CURRENT_SOURCE_DIR}/replay-storage/s4u-replay-storage_d.xml
-		  PARENT_SCOPE)
+                  PARENT_SCOPE)
+set(bin_files     ${bin_files}    ${CMAKE_CURRENT_SOURCE_DIR}/dht-kademlia/generate.py                     PARENT_SCOPE)
 set(txt_files     ${txt_files}    ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm-split-p0.txt
                                   ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm-split-p1.txt
                                   ${CMAKE_CURRENT_SOURCE_DIR}/replay-comm/s4u-replay-comm.txt
@@ -93,8 +108,8 @@ foreach(example actor-create actor-daemon actor-join actor-kill actor-lifetime a
                 app-bittorrent app-chainsend app-masterworker app-pingpong app-token-ring 
                 async-wait async-waitall async-waitany
                 scalability
-                cloud-simple
-                dht-chord 
+                cloud-capping cloud-migration cloud-simple
+                dht-chord dht-kademlia
                 energy-exec energy-boot energy-link energy-vm
                 exec-async exec-basic exec-dvfs exec-monitor exec-ptask exec-remote
                 platform-properties plugin-hostload mutex

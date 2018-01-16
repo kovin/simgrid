@@ -6,7 +6,6 @@
 #ifndef SIMGRID_S4U_VM_HPP
 #define SIMGRID_S4U_VM_HPP
 
-#include "simgrid/datatypes.h"
 #include "simgrid/s4u/Host.hpp"
 #include "simgrid/s4u/forward.hpp"
 
@@ -21,6 +20,7 @@ namespace simgrid {
 namespace vm {
 class VirtualMachineImpl;
 };
+
 namespace s4u {
 
 /** @ingroup s4u_api
@@ -33,6 +33,8 @@ namespace s4u {
  */
 XBT_PUBLIC_CLASS VirtualMachine : public s4u::Host
 {
+  simgrid::vm::VirtualMachineImpl* pimpl_vm_ = nullptr;
+  virtual ~VirtualMachine();
 
 public:
   explicit VirtualMachine(const char* name, s4u::Host* hostPm, int coreAmount);
@@ -42,29 +44,24 @@ public:
   VirtualMachine(VirtualMachine const&) = delete;
   VirtualMachine& operator=(VirtualMachine const&) = delete;
 
-private:
-  virtual ~VirtualMachine();
-public:
+  simgrid::vm::VirtualMachineImpl* getImpl() { return pimpl_vm_; }
   void start();
   void suspend();
   void resume();
   void shutdown();
+  void destroy();
 
   bool isMigrating();
 
-  void getParameters(vm_params_t params);
-  void setParameters(vm_params_t params);
   simgrid::s4u::Host* getPm();
+  void setPm(simgrid::s4u::Host * pm);
   size_t getRamsize();
   void setRamsize(size_t ramsize);
   void setBound(double bound);
 
   e_surf_vm_state_t getState();
-
-  /* FIXME: protect me */
-  simgrid::vm::VirtualMachineImpl* pimpl_vm_ = nullptr;
 };
 }
 } // namespace simgrid::s4u
 
-#endif /* SIMGRID_S4U_HOST_HPP */
+#endif

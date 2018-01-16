@@ -1,6 +1,6 @@
 /* Java Wrappers to the MSG API.                                            */
 
-/* Copyright (c) 2007-2017. The SimGrid Team. All rights reserved.          */
+/* Copyright (c) 2007-2018. The SimGrid Team. All rights reserved.          */
 
 /* This program is free software; you can redistribute it and/or modify it
  * under the terms of the license (GNU LGPL) which comes with this package. */
@@ -92,9 +92,6 @@ JNIEXPORT void JNICALL Java_org_simgrid_msg_Msg_init(JNIEnv * env, jclass cls, j
 {
   int argc = 0;
 
-  XBT_LOG_CONNECT(java);
-  XBT_LOG_CONNECT(jtrace);
-
   env->GetJavaVM(&__java_vm);
 
   simgrid::kernel::context::factory_initializer = &simgrid::kernel::context::java_factory;
@@ -121,6 +118,7 @@ JNIEXPORT void JNICALL Java_org_simgrid_msg_Msg_init(JNIEnv * env, jclass cls, j
   argv[argc] = nullptr;
 
   MSG_init(&argc, argv);
+  sg_vm_live_migration_plugin_init();
 
   JAVA_HOST_LEVEL = simgrid::s4u::Host::extension_create(nullptr);
 
@@ -240,11 +238,6 @@ Java_org_simgrid_msg_Msg_deployApplication(JNIEnv * env, jclass cls, jstring jde
 
 JNIEXPORT void JNICALL Java_org_simgrid_msg_Msg_energyInit() {
   sg_host_energy_plugin_init();
-}
-
-JNIEXPORT void JNICALL Java_org_simgrid_msg_Msg_liveMigrationInit()
-{
-  sg_vm_live_migration_plugin_init();
 }
 
 JNIEXPORT void JNICALL Java_org_simgrid_msg_Msg_fileSystemInit()

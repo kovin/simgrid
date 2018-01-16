@@ -301,7 +301,7 @@ void Comm::init_smp(){
     smpi_switch_data_segment(smpi_process()->index());
   }
   //identify neighbours in comm
-  //get the indexes of all processes sharing the same simix host
+  //get the indices of all processes sharing the same simix host
   const auto& process_list = sg_host_self()->extension<simgrid::simix::Host>()->process_list;
   int intra_comm_size     = 0;
   int min_index           = INT_MAX; // the minimum index will be the leader
@@ -344,11 +344,10 @@ void Comm::init_smp(){
   }else{
     delete[] leaders_map;
   }
-  int j=0;
   int leader_group_size = 0;
   for(i=0; i<comm_size; i++){
     int already_done = 0;
-    for (j = 0; j < leader_group_size; j++) {
+    for (int j = 0; j < leader_group_size; j++) {
       if (leaders_map_[i] == leader_list[j]) {
         already_done = 1;
       }

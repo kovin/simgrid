@@ -370,6 +370,8 @@ set(PLUGINS_SRC
   src/plugins/vm/VirtualMachineImpl.cpp
   src/plugins/vm/VmHostExt.hpp
   src/plugins/vm/VmHostExt.cpp
+  src/plugins/vm/VmLiveMigration.cpp
+  src/plugins/vm/VmLiveMigration.hpp
   )
   
 set(SIMIX_GENERATED_SRC   src/simix/popping_generated.cpp  )
@@ -399,6 +401,8 @@ set(SIMIX_SRC
   src/kernel/activity/ExecImpl.hpp
   src/kernel/activity/MailboxImpl.cpp
   src/kernel/activity/MailboxImpl.hpp
+  src/kernel/activity/MutexImpl.cpp
+  src/kernel/activity/MutexImpl.hpp
   src/kernel/activity/SleepImpl.cpp
   src/kernel/activity/SleepImpl.hpp
   src/kernel/activity/SynchroIo.cpp
@@ -673,7 +677,6 @@ set(headers_to_install
   include/simgrid/instr.h
   include/simgrid/msg.h
   include/simgrid/simdag.h
-  include/simgrid/datatypes.h
   include/simgrid/modelchecker.h
   include/simgrid/forward.h
   include/simgrid/simix.h

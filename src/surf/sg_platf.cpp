@@ -39,13 +39,6 @@ simgrid::xbt::signal<void(ClusterCreationArgs*)> on_cluster;
 }
 }
 
-// FIXME: The following duplicates the content of s4u::Host
-namespace simgrid {
-namespace s4u {
-extern std::map<std::string, simgrid::s4u::Host*> host_list;
-}
-}
-
 static int surf_parse_models_setup_already_called = 0;
 std::map<std::string, simgrid::surf::StorageType*> storage_types;
 
@@ -161,18 +154,18 @@ void sg_platf_new_cluster(ClusterCreationArgs* cluster)
   ZoneCreationArgs zone;
   zone.id = cluster->id;
   switch (cluster->topology) {
-  case SURF_CLUSTER_TORUS:
-    zone.routing = A_surfxml_AS_routing_ClusterTorus;
-    break;
-  case SURF_CLUSTER_DRAGONFLY:
-    zone.routing = A_surfxml_AS_routing_ClusterDragonfly;
-    break;
-  case SURF_CLUSTER_FAT_TREE:
-    zone.routing = A_surfxml_AS_routing_ClusterFatTree;
-    break;
-  default:
-    zone.routing = A_surfxml_AS_routing_Cluster;
-    break;
+    case ClusterTopology::TORUS:
+      zone.routing = A_surfxml_AS_routing_ClusterTorus;
+      break;
+    case ClusterTopology::DRAGONFLY:
+      zone.routing = A_surfxml_AS_routing_ClusterDragonfly;
+      break;
+    case ClusterTopology::FAT_TREE:
+      zone.routing = A_surfxml_AS_routing_ClusterFatTree;
+      break;
+    default:
+      zone.routing = A_surfxml_AS_routing_Cluster;
+      break;
   }
   sg_platf_new_Zone_begin(&zone);
   simgrid::kernel::routing::ClusterZone* current_as = static_cast<ClusterZone*>(routing_get_current());
@@ -257,7 +250,7 @@ void sg_platf_new_cluster(ClusterCreationArgs* cluster)
     }
 
     //call the cluster function that adds the others links
-    if (cluster->topology == SURF_CLUSTER_FAT_TREE) {
+    if (cluster->topology == ClusterTopology::FAT_TREE) {
       static_cast<FatTreeZone*>(current_as)->addProcessingNode(i);
     } else {
       current_as->create_links_for_node(cluster, i, rankId, current_as->nodePositionWithLimiter(rankId));
@@ -404,27 +397,30 @@ void sg_platf_new_mount(MountCreationArgs* mount)
   mount_list.insert({mount->name, simgrid::surf::StorageImpl::byName(mount->storageId.c_str())});
 }
 
-void sg_platf_new_route(sg_platf_route_cbarg_t route)
+void sg_platf_new_route(RouteCreationArgs* route)
 {
   routing_get_current()->addRoute(route->src, route->dst, route->gw_src, route->gw_dst, route->link_list,
                                   route->symmetrical);
 }
 
-void sg_platf_new_bypassRoute(sg_platf_route_cbarg_t bypassRoute)
+void sg_platf_new_bypassRoute(RouteCreationArgs* bypassRoute)
 {
   routing_get_current()->addBypassRoute(bypassRoute->src, bypassRoute->dst, bypassRoute->gw_src, bypassRoute->gw_dst,
                                         bypassRoute->link_list, bypassRoute->symmetrical);
 }
 
-void sg_platf_new_process(sg_platf_process_cbarg_t process)
+void sg_platf_new_actor(ActorCreationArgs* actor)
 {
-  sg_host_t host = sg_host_by_name(process->host);
+  sg_host_t host = sg_host_by_name(actor->host);
   if (not host) {
     // The requested host does not exist. Do a nice message to the user
-    std::string msg = std::string("Cannot create process '") + process->function + "': host '" + process->host +
+    std::string msg = std::string("Cannot create actor '") + actor->function + "': host '" + actor->host +
                       "' does not exist\nExisting hosts: '";
-    for (auto const& kv : simgrid::s4u::host_list) {
-      simgrid::s4u::Host* host = kv.second;
+
+    std::vector<simgrid::s4u::Host*> list;
+    simgrid::s4u::Engine::getInstance()->getHostList(&list);
+
+    for (auto const& host : list) {
       msg += host->getName();
       msg += "', '";
       if (msg.length() > 1024) {
@@ -435,38 +431,25 @@ void sg_platf_new_process(sg_platf_process_cbarg_t process)
     }
     xbt_die("%s", msg.c_str());
   }
-  simgrid::simix::ActorCodeFactory& factory = SIMIX_get_actor_code_factory(process->function);
-  xbt_assert(factory, "Function '%s' unknown", process->function);
+  simgrid::simix::ActorCodeFactory& factory = SIMIX_get_actor_code_factory(actor->function);
+  xbt_assert(factory, "Function '%s' unknown", actor->function);
 
-  double start_time = process->start_time;
-  double kill_time  = process->kill_time;
-  int auto_restart = process->on_failure == SURF_ACTOR_ON_FAILURE_DIE ? 0 : 1;
+  double start_time = actor->start_time;
+  double kill_time  = actor->kill_time;
+  bool auto_restart = actor->on_failure != ActorOnFailure::DIE;
 
-  std::string process_name   = process->args[0];
-  std::function<void()> code = factory(std::move(process->args));
-  std::shared_ptr<std::map<std::string, std::string>> properties(process->properties);
+  std::string actor_name     = actor->args[0];
+  std::function<void()> code = factory(std::move(actor->args));
+  std::shared_ptr<std::map<std::string, std::string>> properties(actor->properties);
 
-  smx_process_arg_t arg = nullptr;
-
-  arg = new simgrid::simix::ProcessArg();
-  arg->name = process_name;
-  arg->code = code;
-  arg->data = nullptr;
-  arg->host = host;
-  arg->kill_time = kill_time;
-  arg->properties = properties;
+  simgrid::simix::ProcessArg* arg =
+      new simgrid::simix::ProcessArg(actor_name, code, nullptr, host, kill_time, properties, auto_restart);
 
   host->extension<simgrid::simix::Host>()->boot_processes.push_back(arg);
 
   if (start_time > SIMIX_get_clock()) {
 
-    arg = new simgrid::simix::ProcessArg();
-    arg->name = process_name;
-    arg->code = std::move(code);
-    arg->data = nullptr;
-    arg->host = host;
-    arg->kill_time = kill_time;
-    arg->properties = properties;
+    arg = new simgrid::simix::ProcessArg(actor_name, code, nullptr, host, kill_time, properties, auto_restart);
 
     XBT_DEBUG("Process %s@%s will be started at time %f", arg->name.c_str(), arg->host->getCname(), start_time);
     SIMIX_timer_set(start_time, [arg, auto_restart]() {

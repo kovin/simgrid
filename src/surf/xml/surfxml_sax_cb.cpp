@@ -485,16 +485,16 @@ void ETag_surfxml_cluster(){
 
   switch(AX_surfxml_cluster_topology){
   case A_surfxml_cluster_topology_FLAT:
-    cluster.topology= SURF_CLUSTER_FLAT ;
+    cluster.topology = ClusterTopology::FLAT;
     break;
   case A_surfxml_cluster_topology_TORUS:
-    cluster.topology= SURF_CLUSTER_TORUS ;
+    cluster.topology = ClusterTopology::TORUS;
     break;
   case A_surfxml_cluster_topology_FAT___TREE:
-    cluster.topology = SURF_CLUSTER_FAT_TREE;
+    cluster.topology = ClusterTopology::FAT_TREE;
     break;
   case A_surfxml_cluster_topology_DRAGONFLY:
-    cluster.topology= SURF_CLUSTER_DRAGONFLY ;
+    cluster.topology = ClusterTopology::DRAGONFLY;
     break;
   default:
     surf_parse_error(std::string("Invalid cluster topology for cluster ") + cluster.id);
@@ -692,7 +692,7 @@ void STag_surfxml_bypassZoneRoute(){
 }
 
 void ETag_surfxml_route(){
-  s_sg_platf_route_cbarg_t route;
+  RouteCreationArgs route;
 
   route.src         = sg_netpoint_by_name_or_null(A_surfxml_route_src); // tested to not be nullptr in start tag
   route.dst         = sg_netpoint_by_name_or_null(A_surfxml_route_dst); // tested to not be nullptr in start tag
@@ -716,7 +716,7 @@ void ETag_surfxml_ASroute()
 }
 void ETag_surfxml_zoneRoute()
 {
-  s_sg_platf_route_cbarg_t ASroute;
+  RouteCreationArgs ASroute;
 
   ASroute.src = sg_netpoint_by_name_or_null(A_surfxml_zoneRoute_src); // tested to not be nullptr in start tag
   ASroute.dst = sg_netpoint_by_name_or_null(A_surfxml_zoneRoute_dst); // tested to not be nullptr in start tag
@@ -742,7 +742,7 @@ void ETag_surfxml_zoneRoute()
 }
 
 void ETag_surfxml_bypassRoute(){
-  s_sg_platf_route_cbarg_t route;
+  RouteCreationArgs route;
 
   route.src         = sg_netpoint_by_name_or_null(A_surfxml_bypassRoute_src); // tested to not be nullptr in start tag
   route.dst         = sg_netpoint_by_name_or_null(A_surfxml_bypassRoute_dst); // tested to not be nullptr in start tag
@@ -765,7 +765,7 @@ void ETag_surfxml_bypassASroute()
 }
 void ETag_surfxml_bypassZoneRoute()
 {
-  s_sg_platf_route_cbarg_t ASroute;
+  RouteCreationArgs ASroute;
 
   ASroute.src         = sg_netpoint_by_name_or_null(A_surfxml_bypassZoneRoute_src);
   ASroute.dst         = sg_netpoint_by_name_or_null(A_surfxml_bypassZoneRoute_dst);
@@ -801,19 +801,19 @@ void STag_surfxml_trace___connect()
   switch (A_surfxml_trace___connect_kind) {
   case AU_surfxml_trace___connect_kind:
   case A_surfxml_trace___connect_kind_SPEED:
-    trace_connect.kind =  SURF_TRACE_CONNECT_KIND_SPEED;
+    trace_connect.kind = TraceConnectKind::SPEED;
     break;
   case A_surfxml_trace___connect_kind_BANDWIDTH:
-    trace_connect.kind =  SURF_TRACE_CONNECT_KIND_BANDWIDTH;
+    trace_connect.kind = TraceConnectKind::BANDWIDTH;
     break;
   case A_surfxml_trace___connect_kind_HOST___AVAIL:
-    trace_connect.kind =  SURF_TRACE_CONNECT_KIND_HOST_AVAIL;
+    trace_connect.kind = TraceConnectKind::HOST_AVAIL;
     break;
   case A_surfxml_trace___connect_kind_LATENCY:
-    trace_connect.kind =  SURF_TRACE_CONNECT_KIND_LATENCY;
+    trace_connect.kind = TraceConnectKind::LATENCY;
     break;
   case A_surfxml_trace___connect_kind_LINK___AVAIL:
-    trace_connect.kind =  SURF_TRACE_CONNECT_KIND_LINK_AVAIL;
+    trace_connect.kind = TraceConnectKind::LINK_AVAIL;
     break;
   default:
     surf_parse_error("Invalid trace kind");
@@ -904,7 +904,7 @@ void ETag_surfxml_process()
 
 void ETag_surfxml_actor()
 {
-  s_sg_platf_process_cbarg_t actor;
+  ActorCreationArgs actor;
 
   actor.properties     = current_property_set;
   current_property_set = nullptr;
@@ -918,17 +918,17 @@ void ETag_surfxml_actor()
   switch (A_surfxml_actor_on___failure) {
   case AU_surfxml_actor_on___failure:
   case A_surfxml_actor_on___failure_DIE:
-    actor.on_failure =  SURF_ACTOR_ON_FAILURE_DIE;
+    actor.on_failure = ActorOnFailure::DIE;
     break;
   case A_surfxml_actor_on___failure_RESTART:
-    actor.on_failure =  SURF_ACTOR_ON_FAILURE_RESTART;
+    actor.on_failure = ActorOnFailure::RESTART;
     break;
   default:
     surf_parse_error("Invalid on failure behavior");
     break;
   }
 
-  sg_platf_new_process(&actor);
+  sg_platf_new_actor(&actor);
 }
 
 void STag_surfxml_argument(){

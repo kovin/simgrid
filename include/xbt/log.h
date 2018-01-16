@@ -1,6 +1,6 @@
 /* log - a generic logging facility in the spirit of log4j                  */
 
-/* Copyright (c) 2004-2017. The SimGrid Team. All rights reserved.          */
+/* Copyright (c) 2004-2018. The SimGrid Team. All rights reserved.          */
 
 /* This program is free software; you can redistribute it and/or modify it
  * under the terms of the license (GNU LGPL) which comes with this package. */
@@ -86,12 +86,6 @@ typedef enum {
 #define _XBT_LOGV_CTOR(cat) _XBT_LOG_CONCAT2(_XBT_LOGV(cat), __constructor__)
 #define _XBT_LOG_CONCAT(x, y) x ## y
 #define _XBT_LOG_CONCAT2(x, y) _XBT_LOG_CONCAT(x, y)
-/* Apparently, constructor priorities are not supported by gcc on Macs */
-#if defined(__GNUC__) && defined(__APPLE__)
-#  define _XBT_LOGV_CTOR_ATTRIBUTE
-#else
-#  define _XBT_LOGV_CTOR_ATTRIBUTE _XBT_GNUC_CONSTRUCTOR(600)
-#endif
 
 /* The root of the category hierarchy. */
 #define XBT_LOG_ROOT_CAT   root
@@ -100,47 +94,37 @@ typedef enum {
  * This is normally done at the first use of the category.
  *
  * It is however necessary to make this connections as early as possible, if we want the category to be listed by
- * --help-log-categories.
- *
- * When possible, the initializations takes place automatically before the start of main().  It's the case when
- * compiling with gcc.
- *
- * For the other cases, you can use the XBT_LOG_CONNECT(cat) macro to force early initialization.  See, for example,
- * in xbt/log.c, the function xbt_log_connect_categories().
+ * --help-log-categories. We use constructor attributes for these initializations to take place automatically before the
+ * start of main().
  */
-
-#define XBT_LOG_CONNECT(cat)                    \
-  if (1) {                                      \
-    extern void _XBT_LOGV_CTOR(cat)(void);      \
-    _XBT_LOGV_CTOR(cat)();                      \
-  } else ((void)0)
 
 /* XBT_LOG_NEW_SUBCATEGORY_helper:
  * Implementation of XBT_LOG_NEW_SUBCATEGORY, which must declare "extern parent" in addition to avoid an extra
  * declaration of root when XBT_LOG_NEW_SUBCATEGORY is called by XBT_LOG_NEW_CATEGORY */
-#define XBT_LOG_NEW_SUBCATEGORY_helper(catName, parent, desc)           \
-  SG_BEGIN_DECL()                                                       \
-  extern void _XBT_LOGV_CTOR(catName)(void) _XBT_LOGV_CTOR_ATTRIBUTE; \
-  void _XBT_LOGV_CTOR(catName)(void)                                    \
-  {                                                                     \
-    XBT_LOG_EXTERNAL_CATEGORY(catName);                                 \
-    if (!_XBT_LOGV(catName).initialized) {                              \
-      _xbt_log_cat_init(&_XBT_LOGV(catName), xbt_log_priority_uninitialized); \
-    }                                                                   \
-  }                                                                     \
-  SG_END_DECL()                                                         \
-  XBT_EXPORT_NO_IMPORT(s_xbt_log_category_t) _XBT_LOGV(catName) = {     \
-    &_XBT_LOGV(parent),                                                 \
-    NULL /* firstChild */,                                              \
-    NULL /* nextSibling */,                                             \
-    #catName,                                                           \
-    desc,                                                               \
-    0 /*initialized */,                                                 \
-    xbt_log_priority_uninitialized /* threshold */,                     \
-    1 /* isThreshInherited */,                                          \
-    NULL /* appender */,                                                \
-    NULL /* layout */,                                                  \
-    1 /* additivity */                                                  \
+#define XBT_LOG_NEW_SUBCATEGORY_helper(catName, parent, desc)                                                          \
+  SG_BEGIN_DECL()                                                                                                      \
+  extern void _XBT_LOGV_CTOR(catName)(void) XBT_ATTRIB_CONSTRUCTOR(600);                                               \
+  void _XBT_LOGV_CTOR(catName)(void)                                                                                   \
+  {                                                                                                                    \
+    XBT_LOG_EXTERNAL_CATEGORY(catName);                                                                                \
+    if (!_XBT_LOGV(catName).initialized) {                                                                             \
+      _xbt_log_cat_init(&_XBT_LOGV(catName), xbt_log_priority_uninitialized);                                          \
+    }                                                                                                                  \
+  }                                                                                                                    \
+  SG_END_DECL()                                                                                                        \
+  XBT_EXPORT_NO_IMPORT(s_xbt_log_category_t)                                                                           \
+  _XBT_LOGV(catName) = {                                                                                               \
+      &_XBT_LOGV(parent),                                                                                              \
+      NULL /* firstChild */,                                                                                           \
+      NULL /* nextSibling */,                                                                                          \
+      #catName,                                                                                                        \
+      desc,                                                                                                            \
+      0 /*initialized */,                                                                                              \
+      xbt_log_priority_uninitialized /* threshold */,                                                                  \
+      1 /* isThreshInherited */,                                                                                       \
+      NULL /* appender */,                                                                                             \
+      NULL /* layout */,                                                                                               \
+      1 /* additivity */                                                                                               \
   }
 
 /**

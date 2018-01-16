@@ -54,7 +54,7 @@ static void hostStateChange(s4u::Host& host)
       if (vm->getPm() == &host)
         trash.push_back(vm);
     for (s4u::VirtualMachine* vm : trash)
-      vm->pimpl_vm_->shutdown(SIMIX_process_self());
+      vm->shutdown();
   }
 }
 VMModel::VMModel()
@@ -93,9 +93,9 @@ double VMModel::nextOccuringEvent(double now)
     surf::Cpu* cpu = ws_vm->pimpl_cpu;
     xbt_assert(cpu, "cpu-less host");
 
-    double solved_value = ws_vm->pimpl_vm_->action_->getVariable()->get_value(); // this is X1 in comment above, what
+    double solved_value = ws_vm->getImpl()->action_->getVariable()->get_value(); // this is X1 in comment above, what
                                                                                  // this VM got in the sharing on the PM
-    XBT_DEBUG("assign %f to vm %s @ pm %s", solved_value, ws_vm->getCname(), ws_vm->pimpl_vm_->getPm()->getCname());
+    XBT_DEBUG("assign %f to vm %s @ pm %s", solved_value, ws_vm->getCname(), ws_vm->getPm()->getCname());
 
     xbt_assert(cpu->model() == surf_cpu_model_vm);
     lmm_system_t vcpu_system = cpu->model()->getMaxminSystem();
@@ -151,10 +151,9 @@ void VirtualMachineImpl::setState(e_surf_vm_state_t state)
 {
   vmState_ = state;
 }
+
 void VirtualMachineImpl::suspend(smx_actor_t issuer)
 {
-  if (isMigrating)
-    THROWF(vm_error, 0, "Cannot suspend VM '%s': it is migrating", piface_->getCname());
   if (getState() != SURF_VM_STATE_RUNNING)
     THROWF(vm_error, 0, "Cannot suspend VM %s: it is not running.", piface_->getCname());
   if (issuer->host == piface_)
@@ -284,15 +283,5 @@ void VirtualMachineImpl::setBound(double bound)
   action_->setBound(bound);
 }
 
-void VirtualMachineImpl::getParams(vm_params_t params)
-{
-  *params = params_;
-}
-
-void VirtualMachineImpl::setParams(vm_params_t params)
-{
-  /* may check something here. */
-  params_ = *params;
-}
 }
 }

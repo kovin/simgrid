@@ -23,13 +23,6 @@ extern "C" {
 typedef size_t yy_size_t;
 #endif
 
-enum e_surf_cluster_topology_t {
-  SURF_CLUSTER_DRAGONFLY = 3,
-  SURF_CLUSTER_FAT_TREE  = 2,
-  SURF_CLUSTER_FLAT      = 1,
-  SURF_CLUSTER_TORUS     = 0
-};
-
 /* ***************************************** */
 /*
  * Platform creation functions. Instead of passing 123 arguments to the creation functions
@@ -83,7 +76,8 @@ public:
   tmgr_trace_t state_trace;
 };
 
-struct s_sg_platf_route_cbarg_t {
+class RouteCreationArgs {
+public:
   bool symmetrical     = false;
   sg_netpoint_t src    = nullptr;
   sg_netpoint_t dst    = nullptr;
@@ -91,7 +85,8 @@ struct s_sg_platf_route_cbarg_t {
   sg_netpoint_t gw_dst = nullptr;
   std::vector<simgrid::surf::LinkImpl*> link_list;
 };
-typedef s_sg_platf_route_cbarg_t* sg_platf_route_cbarg_t;
+
+enum class ClusterTopology { DRAGONFLY = 3, FAT_TREE = 2, FLAT = 1, TORUS = 0 };
 
 class ClusterCreationArgs {
 public:
@@ -108,7 +103,7 @@ public:
   double loopback_bw  = 0;
   double loopback_lat = 0;
   double limiter_link = 0;
-  e_surf_cluster_topology_t topology;
+  ClusterTopology topology;
   std::string topo_parameters;
   std::map<std::string, std::string>* properties;
   std::string router_id;
@@ -152,12 +147,6 @@ public:
   std::string name;
 };
 
-struct s_sg_platf_prop_cbarg_t {
-  const char *id;
-  const char *value;
-};
-typedef s_sg_platf_prop_cbarg_t* sg_platf_prop_cbarg_t;
-
 class TraceCreationArgs {
 public:
   std::string id;
@@ -166,23 +155,27 @@ public:
   std::string pc_data;
 };
 
+enum class TraceConnectKind { HOST_AVAIL, SPEED, LINK_AVAIL, BANDWIDTH, LATENCY };
+
 class TraceConnectCreationArgs {
 public:
-  e_surf_trace_connect_kind_t kind;
+  TraceConnectKind kind;
   std::string trace;
   std::string element;
 };
 
-struct s_sg_platf_process_cbarg_t {
+enum class ActorOnFailure { DIE, RESTART };
+
+class ActorCreationArgs {
+public:
   std::vector<std::string> args;
   std::map<std::string, std::string>* properties = nullptr;
   const char* host                       = nullptr;
   const char* function                   = nullptr;
   double start_time                      = 0.0;
   double kill_time                       = 0.0;
-  e_surf_process_on_failure_t on_failure = {};
+  ActorOnFailure on_failure;
 };
-typedef s_sg_platf_process_cbarg_t* sg_platf_process_cbarg_t;
 
 class ZoneCreationArgs {
 public:
@@ -209,8 +202,8 @@ XBT_PUBLIC(void) sg_platf_new_cabinet(CabinetCreationArgs* cabinet);   // Add a 
 XBT_PUBLIC(simgrid::kernel::routing::NetPoint*)                        // Add a router    to the current Zone
 sg_platf_new_router(std::string, const char* coords);
 
-XBT_PUBLIC(void) sg_platf_new_route (sg_platf_route_cbarg_t route); // Add a route
-XBT_PUBLIC(void) sg_platf_new_bypassRoute (sg_platf_route_cbarg_t bypassroute); // Add a bypassRoute
+XBT_PUBLIC(void) sg_platf_new_route(RouteCreationArgs* route);             // Add a route
+XBT_PUBLIC(void) sg_platf_new_bypassRoute(RouteCreationArgs* bypassroute); // Add a bypassRoute
 
 XBT_PUBLIC(void) sg_platf_new_trace(TraceCreationArgs* trace);
 
@@ -218,7 +211,7 @@ XBT_PUBLIC(void) sg_platf_new_storage(StorageCreationArgs* storage); // Add a st
 XBT_PUBLIC(void) sg_platf_new_storage_type(StorageTypeCreationArgs* storage_type);
 XBT_PUBLIC(void) sg_platf_new_mount(MountCreationArgs* mount);
 
-XBT_PUBLIC(void) sg_platf_new_process(sg_platf_process_cbarg_t process);
+XBT_PUBLIC(void) sg_platf_new_actor(ActorCreationArgs* actor);
 XBT_PRIVATE void sg_platf_trace_connect(TraceConnectCreationArgs* trace_connect);
 
 /* Prototypes of the functions offered by flex */

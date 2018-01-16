@@ -23,11 +23,12 @@ set(process-migration_files     Main  Emigrant  Policeman)
 set(process-startkilltime_files Main  Sleeper)
 set(process-suspend_files       Main  DreamMaster  LazyGuy)
 set(task-priority_files         Main  Test)
+set(app-scalability             Main  Peer)
 
 
 foreach (example app-bittorrent app-centralizedmutex app-masterworker app-pingpong app-tokenring async-yield async-waitall async-dsend
          cloud-migration cloud-masterworker dht-chord dht-kademlia energy-consumption energy-pstate energy-vm io-file io-storage
-         process-kill process-migration process-startkilltime process-suspend task-priority trace-pingpong)
+         process-kill process-migration process-startkilltime process-suspend task-priority trace-pingpong app-scalability)
   string (REPLACE "-" "/" example_dir ${example})
   set (srcdir ${CMAKE_CURRENT_SOURCE_DIR}/${example_dir})
   foreach (filename ${${example}_files} )

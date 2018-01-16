@@ -18,7 +18,7 @@ public class Peer extends Process {
 		int id = Integer.parseInt(args[0]);
 		int count = Integer.parseInt(args[1]);
 		double compSize = 500000000;
-	    double commSize = 1000000000;
+		double commSize = 10000;
 		Msg.info("Hi, I'm joining the network with id " + id + " and we are " + count);
 		String taskName = "Task_" + id;
 		String myMailbox = "worker-" + id;

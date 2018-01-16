@@ -13,7 +13,7 @@ static int peer(int argc, char *argv[])
   int id = xbt_str_parse_int(argv[1], "Invalid argument %s");
   int count = xbt_str_parse_int(argv[2], "Invalid argument %s");
   double comp_size = 500000000;
-  double comm_size = 1000000000;
+  double comm_size = 10000;
   int max_string_size = 80;
   char task_name[max_string_size];
   char mailbox[max_string_size];

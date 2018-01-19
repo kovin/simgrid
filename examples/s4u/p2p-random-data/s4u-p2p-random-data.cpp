@@ -16,5 +16,7 @@ int main(int argc, char *argv[])
   e.loadDeployment(argv[2]);
   e.run();
 
+  XBT_INFO("Simulation time %g", SIMIX_get_clock());
+
   return 0;
 }

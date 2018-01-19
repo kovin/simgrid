@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform
+  SYSTEM 'http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd'>
+<platform version="4.1">
+    <actor function="miner" host="node-0">
+        <argument value="0"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="miner" host="node-1">
+        <argument value="1"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-2">
+        <argument value="2"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-3">
+        <argument value="3"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-4">
+        <argument value="4"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-5">
+        <argument value="5"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-6">
+        <argument value="6"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-7">
+        <argument value="7"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-8">
+        <argument value="8"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-9">
+        <argument value="9"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-10">
+        <argument value="10"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-11">
+        <argument value="11"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-12">
+        <argument value="12"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-13">
+        <argument value="13"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-14">
+        <argument value="14"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-15">
+        <argument value="15"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-16">
+        <argument value="16"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-17">
+        <argument value="17"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-18">
+        <argument value="18"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-19">
+        <argument value="19"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-20">
+        <argument value="20"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-21">
+        <argument value="21"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-22">
+        <argument value="22"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-23">
+        <argument value="23"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-24">
+        <argument value="24"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-25">
+        <argument value="25"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-26">
+        <argument value="26"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-27">
+        <argument value="27"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-28">
+        <argument value="28"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-29">
+        <argument value="29"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-30">
+        <argument value="30"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-31">
+        <argument value="31"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-32">
+        <argument value="32"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-33">
+        <argument value="33"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-34">
+        <argument value="34"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-35">
+        <argument value="35"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-36">
+        <argument value="36"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-37">
+        <argument value="37"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-38">
+        <argument value="38"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-39">
+        <argument value="39"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-40">
+        <argument value="40"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-41">
+        <argument value="41"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-42">
+        <argument value="42"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-43">
+        <argument value="43"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-44">
+        <argument value="44"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-45">
+        <argument value="45"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-46">
+        <argument value="46"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-47">
+        <argument value="47"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="node" host="node-48">
+        <argument value="48"/>
+        <argument value="49"/>
+    </actor>
+    <actor function="monitor" host="node-49"></actor>
+</platform>

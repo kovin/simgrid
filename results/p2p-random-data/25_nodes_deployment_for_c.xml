@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE platform
+  SYSTEM 'http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd'>
+<platform version="4.1">
+    <actor function="miner" host="node-0">
+        <argument value="0"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-1">
+        <argument value="1"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-2">
+        <argument value="2"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-3">
+        <argument value="3"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-4">
+        <argument value="4"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-5">
+        <argument value="5"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-6">
+        <argument value="6"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-7">
+        <argument value="7"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-8">
+        <argument value="8"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-9">
+        <argument value="9"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-10">
+        <argument value="10"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-11">
+        <argument value="11"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-12">
+        <argument value="12"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-13">
+        <argument value="13"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-14">
+        <argument value="14"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-15">
+        <argument value="15"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-16">
+        <argument value="16"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-17">
+        <argument value="17"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-18">
+        <argument value="18"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-19">
+        <argument value="19"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-20">
+        <argument value="20"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-21">
+        <argument value="21"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-22">
+        <argument value="22"/>
+        <argument value="24"/>
+    </actor>
+    <actor function="node" host="node-23">
+        <argument value="23"/>
+        <argument value="24"/>
+    </actor>
+    <actor host="node-24" function="monitor"></actor>
+</platform>

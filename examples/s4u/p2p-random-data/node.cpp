@@ -7,7 +7,7 @@
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(p2p_random_data);
 
 int Node::active_nodes = 0;
-int Node::network_bytes_produced = 0;
+long Node::network_bytes_produced = 0;
 
 Node::Node(std::vector<std::string> args)
 {

@@ -7,7 +7,7 @@ Monitor::Monitor(std::vector<std::string> args) {
 }
 
 void Monitor::operator()() {
-  XBT_INFO("\nTime\t\tTotal network bytes produced\n");
+  XBT_INFO("\nTime\t\tTotal network bytes produced");
   long last_bytes_monitored = Node::network_bytes_produced;
   while (Node::active_nodes > 0) {
     if (last_bytes_monitored != Node::network_bytes_produced) {

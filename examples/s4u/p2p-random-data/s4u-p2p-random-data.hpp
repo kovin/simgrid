@@ -29,7 +29,7 @@ class Node : public BaseNode {
 public:
   explicit Node(std::vector<std::string> args);
   static int active_nodes;
-  static int network_bytes_produced;
+  static long network_bytes_produced;
   void operator()();
 
 protected:

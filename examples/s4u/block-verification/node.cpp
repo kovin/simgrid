@@ -4,6 +4,28 @@
 #include <string>
 #include <sstream>
 
+// <prueba>
+//#include <string>
+//#include <sstream>
+#include <vector>
+#include <iterator>
+
+template<typename Out>
+void split(const std::string &s, char delim, Out result) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        *(result++) = item;
+    }
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    split(s, delim, std::back_inserter(elems));
+    return elems;
+}
+// </prueba>
+
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(block_verification);
 
 int Node::active_nodes = 0;
@@ -12,9 +34,18 @@ long Node::network_bytes_produced = 0;
 Node::Node(std::vector<std::string> args)
 {
   active_nodes++;
-  xbt_assert(args.size() == 3, "Expecting 2 parameters from the XML deployment file but got %zu", args.size());
+  //xbt_assert(args.size() == 3, "Expecting 2 parameters from the XML deployment file but got %zu", args.size());
+  xbt_assert((args.size() - 1) == 3, "Expecting 3 parameters from the XML deployment file but got %zu", (args.size() - 1));
   my_id = std::stol(args[1]);
   peers_count = std::stol(args[2]);
+  // <prueba>
+    std::vector<std::string> peers;
+    split(args[3], ' ', std::back_inserter(peers));
+    std::vector<std::string>::iterator it;
+    for(it = peers.begin(); it != peers.end(); it++) {
+      XBT_INFO("estoy con %s\n", it->c_str());
+    }
+  // </prueba>
   xbt_assert(peers_count > 0, "You should define at least one peer");
   connected_peers = peers_count - 1;
   std::string my_mailbox_name = std::string("receiver-") + std::to_string(my_id);

@@ -29,10 +29,10 @@ foreach (file node miner monitor)
 endforeach()
 
 # BLOCK VERIFICATION EXAMPLE
-add_executable       (s4u-block-verification block-verification/s4u-block-verification.cpp block-verification/node.cpp block-verification/miner.cpp block-verification/monitor.cpp block-verification/lrand.cpp)
+add_executable       (s4u-block-verification block-verification/s4u-block-verification.cpp block-verification/node.cpp block-verification/miner.cpp block-verification/monitor.cpp block-verification/aux-functions.cpp)
 target_link_libraries(s4u-block-verification simgrid)
 set_target_properties(s4u-block-verification PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/block-verification)
-foreach (file node miner monitor lrand)
+foreach (file node miner monitor aux-functions)
   set(examples_src  ${examples_src}  ${CMAKE_CURRENT_SOURCE_DIR}/block-verification/${file}.cpp)
 endforeach()
 

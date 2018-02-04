@@ -1,7 +1,7 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-#include "lrand.hpp"
+#include "aux-functions.hpp"
 
 typedef enum {
   MESSAGE_BLOCK,
@@ -26,7 +26,8 @@ public:
   ~Message() = default;
 };
 
-class Transaction : public Message {
+class Transaction : public Message
+{
   public:
     Transaction (int peer_id, long size) : Message(peer_id, size) { };
 

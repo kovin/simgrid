@@ -1,17 +1,9 @@
-#include "s4u-block-verification.hpp"
-#include <cstdlib>
-#include <iostream>
-#include <string>
-#include <sstream>
-
-// <prueba>
-//#include <string>
-//#include <sstream>
-#include <vector>
-#include <iterator>
+#include "node.hpp"
+#include "aux-functions.hpp"
 
 template<typename Out>
-void split(const std::string &s, char delim, Out result) {
+void split(const std::string &s, char delim, Out result)
+{
     std::stringstream ss(s);
     std::string item;
     while (std::getline(ss, item, delim)) {
@@ -19,7 +11,8 @@ void split(const std::string &s, char delim, Out result) {
     }
 }
 
-std::vector<std::string> split(const std::string &s, char delim) {
+std::vector<std::string> split(const std::string &s, char delim)
+{
     std::vector<std::string> elems;
     split(s, delim, std::back_inserter(elems));
     return elems;
@@ -34,20 +27,17 @@ long Node::network_bytes_produced = 0;
 Node::Node(std::vector<std::string> args)
 {
   active_nodes++;
-  //xbt_assert(args.size() == 3, "Expecting 2 parameters from the XML deployment file but got %zu", args.size());
   xbt_assert((args.size() - 1) == 3, "Expecting 3 parameters from the XML deployment file but got %zu", (args.size() - 1));
   my_id = std::stol(args[1]);
   peers_count = std::stol(args[2]);
-  // <prueba>
-    std::vector<std::string> peers;
-    split(args[3], ' ', std::back_inserter(peers));
-    std::vector<std::string>::iterator it;
-    for(it = peers.begin(); it != peers.end(); it++) {
-      XBT_INFO("estoy con %s\n", it->c_str());
-    }
-  // </prueba>
+  std::vector<std::string> peers;
+  split(args[3], ' ', std::back_inserter(peers));
+  std::vector<std::string>::iterator it;
+  for(it = peers.begin(); it != peers.end(); it++) {
+    int peer_id = std::stoi(it->c_str());
+    my_peers.push_back(peer_id);
+  }
   xbt_assert(peers_count > 0, "You should define at least one peer");
-  connected_peers = peers_count - 1;
   std::string my_mailbox_name = std::string("receiver-") + std::to_string(my_id);
   my_mailbox = simgrid::s4u::Mailbox::byName(my_mailbox_name);
 }
@@ -87,12 +77,19 @@ void Node::notify_unconfirmed_transactions_if_needed()
   }
 }
 
-void Node::send_message_to_peers(Message* payload) {
-  for (int i = 0; i < 5; ++i) {
-    int random_peer_index_to_contact = (rand() % (peers_count - 1)) + 1;
-    int peer_id = (random_peer_index_to_contact + my_id) % peers_count;
-    simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
-    mbox->put_async(payload, msg_size + payload->size);
+/*
+TODO: no enviar a todos los peers
+solo enviar a 1 peer todas las transacciones que conozcamos
+al 25% restante enviar todo (excepto nuestras propias transacciones)
+*/
+void Node::send_message_to_peers(Message* payload)
+{
+  std::vector<int>::iterator it_id;
+  for(it_id = my_peers.begin(); it_id != my_peers.end(); it_id++) {
+      int peer_index_to_contact = *it_id;
+      int peer_id = (peer_index_to_contact + my_id) % peers_count;
+      simgrid::s4u::MailboxPtr mbox = get_peer_mailbox(peer_id);
+      mbox->put_async(payload, msg_size + payload->size);
   }
 }
 
@@ -128,7 +125,8 @@ void Node::receive()
   }
 }
 
-void Node::handle_new_transaction(Transaction *transaction) {
+void Node::handle_new_transaction(Transaction *transaction)
+{
   std::map<long, Transaction>::iterator it;
   it = unconfirmed_transactions.find(transaction->id);
   if (it == unconfirmed_transactions.end()) {
@@ -140,7 +138,8 @@ void Node::handle_new_transaction(Transaction *transaction) {
   }
 }
 
-void Node::handle_new_block(Block *block) {
+void Node::handle_new_block(Block *block)
+{
   if (blockchain.find(block->id) == blockchain.end()) {
     blockchain.insert(block->id);
     long pre_size = compute_unconfirmed_transactions_size();
@@ -151,7 +150,8 @@ void Node::handle_new_block(Block *block) {
   }
 }
 
-void Node::handle_unconfirmed_transactions(UnconfirmedTransactions *message) {
+void Node::handle_unconfirmed_transactions(UnconfirmedTransactions *message)
+{
   long pre_size = compute_unconfirmed_transactions_size();
   unconfirmed_transactions = JoinMaps(unconfirmed_transactions, message->unconfirmed_transactions);
   long post_size = compute_unconfirmed_transactions_size();

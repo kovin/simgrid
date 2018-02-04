@@ -1,4 +1,4 @@
-#include "s4u-block-verification.hpp"
+#include "miner.hpp"
 
 XBT_LOG_EXTERNAL_DEFAULT_CATEGORY(block_verification);
 
@@ -21,6 +21,7 @@ Message* Miner::get_message_to_send()
   return message;
 }
 
-void Miner::handle_new_transaction(Transaction *transaction) {
+void Miner::handle_new_transaction(Transaction *transaction)
+{
   Node::handle_new_transaction(transaction);
 }

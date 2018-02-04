@@ -1,4 +1,6 @@
-#include "s4u-block-verification.hpp"
+#include "node.hpp"
+#include "miner.hpp"
+#include "monitor.hpp"
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(block_verification, "Messages specific for this msg example");
 
